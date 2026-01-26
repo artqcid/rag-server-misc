@@ -16,7 +16,7 @@ class EmbeddingClient:
         """
         self.base_url = base_url.rstrip("/")
         self.model = model
-        self.client = httpx.AsyncClient(timeout=30.0)
+        self.client = httpx.AsyncClient(timeout=30.0, http2=False)
 
     async def close(self):
         """Close HTTP client."""
@@ -48,7 +48,11 @@ class EmbeddingClient:
         if not texts:
             return []
 
-        url = f"{self.base_url}/v1/embeddings"
+        # Handle both base URL and full endpoint URL
+        if "/v1/embeddings" in self.base_url:
+            url = self.base_url
+        else:
+            url = f"{self.base_url}/v1/embeddings"
         payload = {
             "input": texts,
             "model": self.model,

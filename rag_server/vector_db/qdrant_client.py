@@ -157,13 +157,13 @@ class QdrantVectorDB(VectorDBInterface):
         if not self.client:
             raise RuntimeError("Client not connected.")
 
-        # Perform search
-        results = self.client.search(
+        # Perform search using query_points (qdrant-client >= 1.7)
+        results = self.client.query_points(
             collection_name=collection_name,
-            query_vector=query_vector,
+            query=query_vector,
             limit=limit,
             score_threshold=min_score,
-        )
+        ).points
 
         # Format results
         formatted_results = []

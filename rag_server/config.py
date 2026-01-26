@@ -25,8 +25,8 @@ class RAGConfig(BaseSettings):
 
     # Embedding Server Integration
     embedding_url: str = Field(
-        default="http://127.0.0.1:8001/v1/embeddings",
-        description="Embedding server endpoint"
+        default="http://127.0.0.1:8001",
+        description="Embedding server base URL"
     )
     embedding_model: str = Field(
         default="nomic-embed-text-v1.5",
@@ -39,8 +39,8 @@ class RAGConfig(BaseSettings):
 
     # LLM Server Integration
     llm_url: str = Field(
-        default="http://127.0.0.1:8080/v1/chat/completions",
-        description="LLM server endpoint"
+        default="http://127.0.0.1:8080",
+        description="LLM server base URL"
     )
     llm_model: str = Field(
         default="qwen2.5-coder-7b",

@@ -26,7 +26,7 @@ class LLMClient:
         self.model = model
         self.max_tokens = max_tokens
         self.temperature = temperature
-        self.client = httpx.AsyncClient(timeout=120.0)
+        self.client = httpx.AsyncClient(timeout=120.0, http2=False)
 
     async def close(self):
         """Close HTTP client."""
@@ -49,7 +49,11 @@ class LLMClient:
         Returns:
             Generated text response
         """
-        url = f"{self.base_url}/v1/chat/completions"
+        # Handle both base URL and full endpoint URL
+        if "/v1/chat/completions" in self.base_url:
+            url = self.base_url
+        else:
+            url = f"{self.base_url}/v1/chat/completions"
         
         payload = {
             "model": self.model,
