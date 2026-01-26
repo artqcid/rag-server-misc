@@ -58,6 +58,34 @@ function Test-ServiceRunning {
     return $connection.TcpTestSucceeded
 }
 
+function Stop-DuplicateRAGProcesses {
+    $processes = Get-Process python -ErrorAction SilentlyContinue | ForEach-Object {
+        $proc = $_
+        try {
+            $cmdline = (Get-CimInstance Win32_Process -Filter "ProcessId=$($proc.Id)" -ErrorAction SilentlyContinue).CommandLine
+            if ($cmdline -like '*rag_server*') {
+                [PSCustomObject]@{Process = $proc; CommandLine = $cmdline}
+            }
+        } catch {}
+    } | Where-Object { $_ -ne $null }
+    
+    if ($processes.Count -gt 0) {
+        Write-Status "Found $($processes.Count) existing rag_server process(es)" "Warning"
+        foreach ($p in $processes) {
+            Write-Status "  Stopping PID $($p.Process.Id)..." "Warning"
+            try {
+                $p.Process | Stop-Process -Force -ErrorAction Stop
+                Start-Sleep -Milliseconds 500
+                Write-Status "  Stopped PID $($p.Process.Id)" "Success"
+            } catch {
+                Write-Status "  Failed to stop PID $($p.Process.Id): $_" "Error"
+            }
+        }
+        # Wait for port to be released
+        Start-Sleep -Seconds 2
+    }
+}
+
 # Get script directory
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 
@@ -69,11 +97,42 @@ Write-Status "Collection: $Collection" "Info"
 # Check if Qdrant is running
 Write-Status "Checking Qdrant..." "Info"
 if (-not (Test-ServiceRunning -ServiceName "Qdrant" -Port 6333)) {
-    Write-Status "Qdrant not running on port 6333!" "Error"
-    Write-Status "Start Qdrant: C:\qdrant\qdrant.exe" "Warning"
-    exit 1
+    Write-Status "Qdrant not running on port 6333!" "Warning"
+    Write-Status "Starting Qdrant automatically..." "Info"
+    
+    $QdrantPath = "C:\qdrant\qdrant.exe"
+    if (Test-Path $QdrantPath) {
+        try {
+            Start-Process -FilePath $QdrantPath -NoNewWindow -RedirectStandardOutput "C:\qdrant\qdrant.log" -RedirectStandardError "C:\qdrant\qdrant-error.log"
+            Write-Status "Qdrant process started" "Info"
+            Write-Status "Waiting for Qdrant to start..." "Info"
+            
+            # Wait for Qdrant to be ready
+            $maxRetries = 30
+            $retries = 0
+            while (-not (Test-ServiceRunning -ServiceName "Qdrant" -Port 6333) -and $retries -lt $maxRetries) {
+                Start-Sleep -Seconds 1
+                $retries++
+            }
+            
+            if (Test-ServiceRunning -ServiceName "Qdrant" -Port 6333) {
+                Write-Status "Qdrant is running" "Success"
+            } else {
+                Write-Status "Qdrant failed to start within 30 seconds!" "Error"
+                Write-Status "Check logs: C:\qdrant\qdrant.log" "Warning"
+                exit 1
+            }
+        } catch {
+            Write-Status "Failed to start Qdrant: $_" "Error"
+            exit 1
+        }
+    } else {
+        Write-Status "Qdrant executable not found at $QdrantPath!" "Error"
+        exit 1
+    }
+} else {
+    Write-Status "Qdrant is running" "Success"
 }
-Write-Status "Qdrant is running" "Success"
 
 # Check if Embedding server is running
 Write-Status "Checking Embedding server..." "Info"
@@ -96,8 +155,16 @@ else {
 
 # Check if port is available
 if (Test-ServiceRunning -ServiceName "RAG" -Port $Port) {
-    Write-Status "Port $Port is already in use!" "Error"
-    exit 1
+    Write-Status "Port $Port is in use - checking for duplicate processes..." "Warning"
+    Stop-DuplicateRAGProcesses
+    
+    # Re-check if port is still in use
+    if (Test-ServiceRunning -ServiceName "RAG" -Port $Port) {
+        Write-Status "Port $Port is still in use by another process!" "Error"
+        Write-Status "Check: netstat -ano | findstr :$Port" "Warning"
+        exit 1
+    }
+    Write-Status "Port $Port is now available" "Success"
 }
 
 # Check for virtual environment
