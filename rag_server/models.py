@@ -1,5 +1,5 @@
 """Pydantic models for RAG server."""
-from typing import List, Dict, Any, Optional, Literal
+from typing import List, Dict, Any, Optional
 from pydantic import BaseModel, Field
 from datetime import datetime
 
@@ -18,9 +18,9 @@ class DocumentMetadata(BaseModel):
     """
     
     # === Pflichtfelder (Ingestion Layer liefert) ===
-    source: Literal["web", "file", "api", "manual"] = Field(
+    source: str = Field(
         default="manual",
-        description="Quelle des Dokuments"
+        description="Quelle des Dokuments (frei wählbar, z.B. web/file/api/manual)"
     )
     url: Optional[str] = Field(
         default=None,
