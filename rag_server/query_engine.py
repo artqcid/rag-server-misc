@@ -1,6 +1,8 @@
 """RAG query engine - orchestrates retrieval and generation."""
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Union
+from datetime import datetime, timezone
 import uuid
+import hashlib
 
 from .config import RAGConfig
 from .vector_db import VectorDBInterface
@@ -9,6 +11,7 @@ from .llm_client import LLMClient
 from .chunking import HybridChunker
 from .models import (
     Document,
+    DocumentMetadata,
     IndexRequest,
     IndexResponse,
     QueryRequest,
@@ -17,6 +20,49 @@ from .models import (
     SearchResponse,
     SearchResult,
 )
+
+
+def generate_doc_id(metadata: DocumentMetadata, content: str) -> str:
+    """
+    Generiert eine deterministische doc_id basierend auf Metadaten.
+    
+    Format: library:module:symbol oder hash-basiert als Fallback.
+    
+    Args:
+        metadata: Dokument-Metadaten
+        content: Dokument-Inhalt (für Hash-Fallback)
+        
+    Returns:
+        Deterministische doc_id
+    """
+    parts = []
+    
+    # Versuche strukturierte ID zu bauen
+    if metadata.library:
+        parts.append(metadata.library.lower().replace(" ", "_"))
+    
+    if metadata.module:
+        parts.append(metadata.module.lower().replace(" ", "_"))
+    
+    if metadata.symbol:
+        parts.append(metadata.symbol)
+    
+    # Wenn wir strukturierte Teile haben, nutze diese
+    if parts:
+        return ":".join(parts)
+    
+    # Fallback: URL-basierte ID
+    if metadata.url:
+        # Extrahiere sinnvollen Teil aus URL
+        url_parts = metadata.url.rstrip("/").split("/")
+        # Nimm die letzten 2-3 Teile
+        meaningful = [p for p in url_parts[-3:] if p and p not in ["index.html", "www"]]
+        if meaningful:
+            return ":".join(meaningful).replace(".html", "").replace(".md", "")
+    
+    # Letzter Fallback: Hash von Content + URL
+    hash_input = f"{metadata.url or ''}{content[:500]}"
+    return f"doc:{hashlib.sha256(hash_input.encode()).hexdigest()[:12]}"
 
 
 class RAGQueryEngine:
@@ -64,6 +110,12 @@ class RAGQueryEngine:
         """
         Index documents into vector database.
         
+        Verarbeitet Dokumente gemäß ChatGPT-Analyse:
+        1. Generiert deterministische doc_id wenn nicht vorhanden
+        2. Setzt ingested_at Timestamp
+        3. Chunked mit vollständigen Metadaten
+        4. Embedding + Speicherung in Qdrant
+        
         Args:
             request: Index request with documents
             
@@ -77,14 +129,25 @@ class RAGQueryEngine:
 
         # Process each document
         all_chunks = []
+        indexed_doc_ids = []
+        
         for doc in request.documents:
-            # Chunk the document
+            # Generiere doc_id wenn nicht vorhanden
+            doc_id = doc.id or generate_doc_id(doc.metadata, doc.content)
+            indexed_doc_ids.append(doc_id)
+            
+            # Setze ingested_at wenn nicht vorhanden
+            metadata_dict = doc.metadata.model_dump() if hasattr(doc.metadata, 'model_dump') else dict(doc.metadata)
+            if not metadata_dict.get("ingested_at"):
+                metadata_dict["ingested_at"] = datetime.now(timezone.utc).isoformat()
+            
+            # Füge source_doc_id hinzu
+            metadata_dict["source_doc_id"] = doc_id
+            
+            # Chunk the document mit erweiterten Metadaten
             chunks_with_meta = self.chunker.chunk_with_metadata(
                 text=doc.content,
-                base_metadata={
-                    "source_doc_id": doc.id or str(uuid.uuid4()),
-                    **doc.metadata,
-                }
+                base_metadata=metadata_dict
             )
             all_chunks.extend(chunks_with_meta)
 
@@ -95,8 +158,16 @@ class RAGQueryEngine:
         # Prepare documents for insertion
         documents_to_insert = []
         for chunk, embedding in zip(all_chunks, embeddings):
+            # Chunk-ID: Hash von source_doc_id + chunk_index für Qdrant-Kompatibilität
+            # Qdrant akzeptiert nur UUIDs oder unsigned integers
+            source_id = chunk["metadata"].get("source_doc_id", "unknown")
+            chunk_idx = chunk["metadata"].get("chunk_index", 0)
+            chunk_id_input = f"{source_id}:chunk:{chunk_idx}"
+            # Generiere UUID5 für deterministische, aber Qdrant-kompatible IDs
+            chunk_uuid = str(uuid.uuid5(uuid.NAMESPACE_DNS, chunk_id_input))
+            
             documents_to_insert.append({
-                "id": str(uuid.uuid4()),
+                "id": chunk_uuid,
                 "content": chunk["content"],
                 "embedding": embedding,
                 "metadata": chunk["metadata"],
@@ -110,7 +181,7 @@ class RAGQueryEngine:
 
         return IndexResponse(
             indexed_count=len(inserted_ids),
-            document_ids=inserted_ids,
+            document_ids=indexed_doc_ids,  # Gib doc_ids zurück, nicht chunk_ids
             collection=collection_name,
         )
 

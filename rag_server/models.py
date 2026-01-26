@@ -1,6 +1,110 @@
 """Pydantic models for RAG server."""
-from typing import List, Dict, Any, Optional
+from typing import List, Dict, Any, Optional, Literal
 from pydantic import BaseModel, Field
+from datetime import datetime
+
+
+# =============================================================================
+# Document Metadata Schema (nach ChatGPT-Analyse)
+# =============================================================================
+
+class DocumentMetadata(BaseModel):
+    """
+    Strukturierte Metadaten für Dokumente.
+    
+    Pflichtfelder werden von Flowise/Ingestion Layer geliefert.
+    Chunk-Felder werden vom RAG Server gesetzt.
+    Semantische Felder sind optional für erweiterte Filterung.
+    """
+    
+    # === Pflichtfelder (Ingestion Layer liefert) ===
+    source: Literal["web", "file", "api", "manual"] = Field(
+        default="manual",
+        description="Quelle des Dokuments"
+    )
+    url: Optional[str] = Field(
+        default=None,
+        description="Original-URL des Dokuments"
+    )
+    title: Optional[str] = Field(
+        default=None,
+        description="Titel des Dokuments"
+    )
+    language: str = Field(
+        default="en",
+        description="Sprache des Dokuments (ISO 639-1)"
+    )
+    version: Optional[str] = Field(
+        default=None,
+        description="Version der Dokumentation (z.B. 'master', 'v1.0')"
+    )
+    ingestion_source: Optional[str] = Field(
+        default=None,
+        description="Tool das die Ingestion durchgeführt hat (flowise, n8n, cli)"
+    )
+    ingested_at: Optional[datetime] = Field(
+        default=None,
+        description="Zeitpunkt der Ingestion (automatisch gesetzt)"
+    )
+    
+    # === Semantische Felder (optional, für erweiterte Filterung) ===
+    doc_type: Optional[str] = Field(
+        default=None,
+        description="Typ: api_reference, tutorial, guide, etc."
+    )
+    library: Optional[str] = Field(
+        default=None,
+        description="Name der Library (JUCE, React, etc.)"
+    )
+    module: Optional[str] = Field(
+        default=None,
+        description="Modul-Name (audio_processors, gui_basics, etc.)"
+    )
+    symbol: Optional[str] = Field(
+        default=None,
+        description="Symbol-Name (Klasse, Funktion, etc.)"
+    )
+    symbol_type: Optional[str] = Field(
+        default=None,
+        description="Symbol-Typ: class, function, method, variable, etc."
+    )
+    
+    # === Chunk-spezifische Felder (RAG Server setzt) ===
+    chunk_index: Optional[int] = Field(
+        default=None,
+        description="Index des Chunks im Dokument (0-basiert)"
+    )
+    chunk_char_start: Optional[int] = Field(
+        default=None,
+        description="Startposition im Original-Text (Zeichen)"
+    )
+    chunk_char_end: Optional[int] = Field(
+        default=None,
+        description="Endposition im Original-Text (Zeichen)"
+    )
+    chunk_size: Optional[int] = Field(
+        default=None,
+        description="Größe des Chunks in Zeichen"
+    )
+    chunk_overlap: Optional[int] = Field(
+        default=None,
+        description="Überlappung mit vorherigem Chunk"
+    )
+    chunk_strategy: Optional[str] = Field(
+        default=None,
+        description="Verwendete Chunking-Strategie (sentence+char, fixed)"
+    )
+    total_chunks: Optional[int] = Field(
+        default=None,
+        description="Gesamtanzahl Chunks im Dokument"
+    )
+    source_doc_id: Optional[str] = Field(
+        default=None,
+        description="ID des Ursprungsdokuments"
+    )
+    
+    class Config:
+        extra = "allow"  # Erlaube zusätzliche Felder für Flexibilität
 
 
 class Document(BaseModel):
@@ -8,16 +112,24 @@ class Document(BaseModel):
     
     id: Optional[str] = Field(
         default=None,
-        description="Document ID (auto-generated if not provided)"
+        description="Document ID (auto-generated if not provided). Format: library:module:symbol"
     )
     content: str = Field(
         ...,
-        description="Document text content"
+        description="Document text content (raw, wird vom RAG Server gechunked)"
     )
-    metadata: Dict[str, Any] = Field(
-        default_factory=dict,
-        description="Document metadata"
+    metadata: DocumentMetadata = Field(
+        default_factory=DocumentMetadata,
+        description="Strukturierte Dokument-Metadaten"
     )
+
+
+class LegacyDocument(BaseModel):
+    """Legacy document format for backwards compatibility."""
+    
+    id: Optional[str] = Field(default=None)
+    content: str = Field(...)
+    metadata: Dict[str, Any] = Field(default_factory=dict)
 
 
 class IndexRequest(BaseModel):
