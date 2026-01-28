@@ -9,45 +9,30 @@
       "source_type": "web",
       "doc_type": "guide",
       "urls": [
-        "http://www.portaudio.com/",
-        "http://www.portaudio.com/docs/v19-doxygen/index.html",
-        "http://www.portaudio.com/docs/v19-doxygen/tutorial_start.html"
+        "https://github.com/PortAudio/portaudio",
+        "https://github.com/PortAudio/portaudio/blob/master/README.md",
+        "https://github.com/PortAudio/portaudio/blob/master/doc/src/tutorial/index.dox"
       ]
     },
     "tier2_api": {
       "description": "PortAudio API Reference",
-      "source_type": "web",
+      "source_type": "github",
       "doc_type": "reference",
       "urls": [
-        "http://www.portaudio.com/docs/v19-doxygen/portaudio_8h.html",
-        "http://www.portaudio.com/docs/v19-doxygen/group__public__api.html",
-        "http://www.portaudio.com/docs/v19-doxygen/structPaStreamParameters.html",
-        "http://www.portaudio.com/docs/v19-doxygen/structPaStreamInfo.html",
-        "http://www.portaudio.com/docs/v19-doxygen/structPaDeviceInfo.html",
-        "http://www.portaudio.com/docs/v19-doxygen/structPaHostApiInfo.html"
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/include/portaudio.h",
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/include/pa_linux_alsa.h",
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/include/pa_mac_core.h",
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/include/pa_asio.h"
       ]
     },
-    "tier3_hostapi": {
-      "description": "PortAudio Host API Specifics",
-      "source_type": "web",
-      "doc_type": "reference",
-      "urls": [
-        "http://www.portaudio.com/docs/v19-doxygen/pa__win__wasapi_8h.html",
-        "http://www.portaudio.com/docs/v19-doxygen/pa__asio_8h.html",
-        "http://www.portaudio.com/docs/v19-doxygen/pa__jack_8h.html",
-        "http://www.portaudio.com/docs/v19-doxygen/pa__linux__alsa_8h.html",
-        "http://www.portaudio.com/docs/v19-doxygen/pa__mac__core_8h.html"
-      ]
-    },
-    "tier4_advanced": {
-      "description": "PortAudio Advanced Topics and Examples",
-      "source_type": "web",
+    "tier3_examples": {
+      "description": "PortAudio Example Programs",
+      "source_type": "github",
       "doc_type": "guide",
       "urls": [
-        "http://www.portaudio.com/docs/v19-doxygen/blocking_read_write.html",
-        "http://www.portaudio.com/docs/v19-doxygen/writing_a_callback.html",
-        "http://www.portaudio.com/docs/v19-doxygen/compile_flags.html",
-        "http://www.portaudio.com/docs/v19-doxygen/examples.html"
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/examples/paex_sine.c",
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/examples/paex_read_write_wire.c",
+        "https://raw.githubusercontent.com/PortAudio/portaudio/master/examples/paex_record.c"
       ]
     }
   }

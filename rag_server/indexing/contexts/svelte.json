@@ -101,11 +101,8 @@
       "doc_type": "guide",
       "urls": [
         "https://learn.svelte.dev/tutorial/component-bindings",
-        "https://learn.svelte.dev/tutorial/actions",
         "https://learn.svelte.dev/tutorial/classes",
-        "https://learn.svelte.dev/tutorial/component-composition",
         "https://learn.svelte.dev/tutorial/context-api",
-        "https://learn.svelte.dev/tutorial/special-elements",
         "https://learn.svelte.dev/tutorial/module-context"
       ]
     }

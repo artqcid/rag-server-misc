@@ -9,38 +9,35 @@
       "source_type": "web",
       "doc_type": "guide",
       "urls": [
-        "https://en.wikipedia.org/wiki/Audio_Stream_Input/Output",
-        "https://www.steinberg.net/asio/"
+        "https://www.kvraudio.com/forum/viewtopic.php?t=479855",
+        "https://manual.audacityteam.org/man/asio_audio_interface.html"
       ]
     },
     "tier2_sdk": {
-      "description": "ASIO SDK Documentation",
-      "source_type": "github",
+      "description": "ASIO SDK Resources and Headers",
+      "source_type": "web",
       "doc_type": "reference",
       "urls": [
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/README.md",
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/common/asio.h",
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/common/asiosys.h",
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/common/asiodrivers.h"
+        "https://www.steinberg.net/developers/",
+        "https://cycling74.com/articles/plugins-formats-explained"
       ]
     },
     "tier3_implementation": {
-      "description": "ASIO Driver Implementation Details",
-      "source_type": "github",
+      "description": "ASIO Driver Implementation",
+      "source_type": "web",
       "doc_type": "reference",
       "urls": [
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/host/asiodrivers.cpp",
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/host/pc/asiolist.h",
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/ASIO_SDK_Agreement.pdf"
+        "https://github.com/juce-framework/JUCE/tree/master/modules/juce_audio_devices",
+        "https://github.com/thestk/rtaudio"
       ]
     },
     "tier4_examples": {
-      "description": "ASIO Example Applications",
-      "source_type": "github",
+      "description": "ASIO Example Applications and Tutorials",
+      "source_type": "web",
       "doc_type": "guide",
       "urls": [
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/host/sample/hostsample.cpp",
-        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/CHANGES.txt"
+        "https://github.com/portaudio/portaudio",
+        "https://github.com/RtAudio/rtaudio"
       ]
     }
   }

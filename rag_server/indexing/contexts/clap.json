@@ -58,9 +58,9 @@
       "source_type": "github",
       "doc_type": "guide",
       "urls": [
-        "https://raw.githubusercontent.com/free-audio/clap/main/CONVENTIONS.md",
-        "https://raw.githubusercontent.com/free-audio/clap/main/CHANGELOG.md",
-        "https://raw.githubusercontent.com/free-audio/clap-helpers/main/README.md"
+        "https://raw.githubusercontent.com/free-audio/clap/main/ChangeLog.md",
+        "https://raw.githubusercontent.com/free-audio/clap/main/Contributors.md",
+        "https://raw.githubusercontent.com/free-audio/clap/main/conventions/extension-id.md"
       ]
     }
   }

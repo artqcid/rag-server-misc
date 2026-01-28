@@ -5,36 +5,29 @@
   "collection": "aax-docs",
   "tiers": {
     "tier1_overview": {
-      "description": "AAX SDK Overview (Note: Requires Avid Developer account for full access)",
+      "description": "AAX Plugin Format Overview",
       "source_type": "web",
       "doc_type": "reference",
       "urls": [
-        "https://www.avid.com/alliance-partner-program/aax-connectivity-toolkit"
+        "https://cycling74.com/articles/plugins-formats-explained",
+        "https://www.reaper.fm/sdk/plugin/plugin.php"
       ]
     },
     "tier2_general": {
-      "description": "General Plugin Development Resources",
+      "description": "AAX Plugin Development with iPlug2",
       "source_type": "web",
       "doc_type": "guide",
       "urls": [
-        "https://en.wikipedia.org/wiki/Avid_Audio_eXtension",
-        "https://www.avid.com/alliance-partner-program"
+        "https://github.com/iPlug2/iPlug2"
       ]
     },
-    "tier3_protools": {
-      "description": "Pro Tools Integration",
+    "tier3_audio_dev": {
+      "description": "Audio Plugin SDK Resources",
       "source_type": "web",
       "doc_type": "guide",
       "urls": [
-        "https://www.avid.com/pro-tools"
-      ]
-    },
-    "tier4_reference": {
-      "description": "AAX Community Resources",
-      "source_type": "web",
-      "doc_type": "guide",
-      "urls": [
-        "https://duc.avid.com/"
+        "https://github.com/steinbergmedia/vst3sdk",
+        "https://developer.apple.com/documentation/audiotoolbox"
       ]
     }
   }

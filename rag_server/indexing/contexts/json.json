@@ -13,7 +13,7 @@
         "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
         "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse",
         "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify",
-        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON"
+        "https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/JSON"
       ]
     },
     "tier2_schema": {
@@ -22,8 +22,7 @@
       "doc_type": "reference",
       "urls": [
         "https://json-schema.org/",
-        "https://json-schema.org/understanding-json-schema/",
-        "https://json-schema.org/understanding-json-schema/reference/",
+        "https://json-schema.org/understanding-json-schema/reference",
         "https://json-schema.org/understanding-json-schema/basics"
       ]
     },
@@ -33,8 +32,8 @@
       "doc_type": "reference",
       "urls": [
         "https://geojson.org/",
-        "https://www.openapis.org/",
-        "https://developer.mozilla.org/en-US/docs/Web/Manifest"
+        "https://spec.openapis.org/oas/latest.html",
+        "https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps/Manifest"
       ]
     },
     "tier4_advanced": {
