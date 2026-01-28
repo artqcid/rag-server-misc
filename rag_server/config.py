@@ -69,8 +69,26 @@ class RAGConfig(BaseSettings):
         description="Number of documents to retrieve"
     )
     similarity_threshold: float = Field(
-        default=0.7,
+        default=0.5,
         description="Minimum similarity score (0-1)"
+    )
+    
+    # Hybrid Search Parameters
+    enable_hybrid_search: bool = Field(
+        default=True,
+        description="Enable hybrid search (dense + sparse vectors)"
+    )
+    sparse_vocab_size: int = Field(
+        default=30000,
+        description="Vocabulary size for BM25 sparse encoder"
+    )
+    dense_weight: float = Field(
+        default=0.7,
+        description="Weight for dense vector search (0-1)"
+    )
+    sparse_weight: float = Field(
+        default=0.3,
+        description="Weight for sparse vector search (0-1)"
     )
 
     # Chunking Strategy
@@ -127,7 +145,15 @@ class RAGConfig(BaseSettings):
             chunk_size=int(os.getenv("RAG_CHUNK_SIZE", "512")),
             chunk_overlap=int(os.getenv("RAG_CHUNK_OVERLAP", "50")),
             retrieval_limit=int(os.getenv("RAG_RETRIEVAL_LIMIT", "5")),
-            similarity_threshold=float(os.getenv("RAG_SIMILARITY_THRESHOLD", "0.7")),
+            similarity_threshold=float(os.getenv("RAG_SIMILARITY_THRESHOLD", "0.5")),
+            
+            # Hybrid Search
+            enable_hybrid_search=os.getenv(
+                "RAG_ENABLE_HYBRID_SEARCH", "true"
+            ).lower() == "true",
+            sparse_vocab_size=int(os.getenv("RAG_SPARSE_VOCAB_SIZE", "30000")),
+            dense_weight=float(os.getenv("RAG_DENSE_WEIGHT", "0.7")),
+            sparse_weight=float(os.getenv("RAG_SPARSE_WEIGHT", "0.3")),
             
             # Chunking
             use_sentence_splitting=os.getenv(

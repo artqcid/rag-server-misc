@@ -1,0 +1,130 @@
+{
+  "name": "JUCE RAG Tier 1 - Overview Pages",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Start",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ============================================\n// TIER 1: JUCE Overview Pages (6 URLs)\n// ============================================\nconst pages = [\n  { url: 'https://juce.com/', title: 'JUCE Home', section: 'home' },\n  { url: 'https://juce.com/features/', title: 'JUCE Features', section: 'features' },\n  { url: 'https://juce.com/discover/', title: 'JUCE Discover', section: 'discover' },\n  { url: 'https://docs.juce.com/master/', title: 'JUCE Documentation', section: 'docs' },\n  { url: 'https://docs.juce.com/master/index.html', title: 'JUCE API Index', section: 'api-index' },\n  { url: 'https://docs.juce.com/master/modules.html', title: 'JUCE Modules', section: 'modules' }\n];\n\nreturn pages.map(p => ({\n  json: {\n    url: p.url,\n    metadata: {\n      source: 'web',\n      url: p.url,\n      title: p.title,\n      doc_type: 'overview',\n      library: 'JUCE',\n      module: 'core',\n      section: p.section\n    }\n  }\n}));"
+      },
+      "id": "tier1-urls",
+      "name": "Tier 1 URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "fullResponse": false
+            }
+          }
+        }
+      },
+      "id": "http-fetch",
+      "name": "Fetch Page",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [500, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// WICHTIG: URL und Metadata vom Input-Item holen\n// (wird VOR dem HTTP Request gesetzt)\n// ============================================\n\nconst inputData = $input.item.json;\n\n// Die ursprünglichen Daten kommen aus dem vorherigen Node über $('Tier 1 URLs')\nconst originalItem = $('Tier 1 URLs').item;\nconst url = originalItem?.json?.url || '';\nconst metadata = originalItem?.json?.metadata || {};\n\n// Response Body\nlet content = '';\nif (typeof inputData === 'string') {\n  content = inputData;\n} else if (inputData.data) {\n  content = inputData.data;\n} else if (inputData.body) {\n  content = inputData.body;\n} else {\n  content = JSON.stringify(inputData);\n}\n\n// HTML bereinigen\nif (typeof content === 'string' && (content.includes('<html') || content.includes('<!DOCTYPE'))) {\n  content = content\n    .replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '')\n    .replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '')\n    .replace(/<nav[^>]*>[\\s\\S]*?<\\/nav>/gi, '')\n    .replace(/<header[^>]*>[\\s\\S]*?<\\/header>/gi, '')\n    .replace(/<footer[^>]*>[\\s\\S]*?<\\/footer>/gi, '')\n    .replace(/<aside[^>]*>[\\s\\S]*?<\\/aside>/gi, '')\n    .replace(/<!--[\\s\\S]*?-->/g, '')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&lt;/g, '<')\n    .replace(/&gt;/g, '>')\n    .replace(/&quot;/g, '\"')\n    .replace(/&#39;/g, \"'\")\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\n// Zu kurz? Überspringen\nif (!content || content.length < 100) {\n  return [];\n}\n\n// Zu lang? Kürzen\nif (content.length > 50000) {\n  content = content.substring(0, 50000) + '\\n\\n[Truncated]';\n}\n\n// URL muss in metadata gesetzt sein!\nconst finalMetadata = {\n  ...metadata,\n  url: url  // Sicherstellen, dass URL gesetzt ist\n};\n\nreturn {\n  json: {\n    content: content,\n    metadata: finalMetadata\n  }\n};"
+      },
+      "id": "extract-content",
+      "name": "Extract & Clean",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// ============================================\n// Chunking mit URL-Erhalt\n// ============================================\nconst content = $json.content || '';\nconst metadata = $json.metadata || {};\n\nconst CHUNK_SIZE = 1000;\nconst CHUNK_OVERLAP = 100;\n\nif (content.length <= CHUNK_SIZE) {\n  return {\n    json: {\n      content: content,\n      metadata: { ...metadata, chunk: 1, total_chunks: 1 }\n    }\n  };\n}\n\nconst chunks = [];\nlet pos = 0;\nlet num = 1;\n\nwhile (pos < content.length) {\n  let end = Math.min(pos + CHUNK_SIZE, content.length);\n  \n  if (end < content.length) {\n    const breaks = ['\\n\\n', '. ', '.\\n', '\\n', ' '];\n    for (const b of breaks) {\n      const idx = content.lastIndexOf(b, end);\n      if (idx > pos + CHUNK_SIZE * 0.5) {\n        end = idx + b.length;\n        break;\n      }\n    }\n  }\n  \n  const chunk = content.substring(pos, end).trim();\n  if (chunk.length > 50) {\n    chunks.push({\n      json: {\n        content: chunk,\n        metadata: { ...metadata, chunk: num }\n      }\n    });\n    num++;\n  }\n  \n  pos = end - CHUNK_OVERLAP;\n  if (pos < 0) pos = 0;\n  if (end >= content.length) break;\n}\n\nreturn chunks.map(c => ({\n  json: {\n    ...c.json,\n    metadata: { ...c.json.metadata, total_chunks: chunks.length }\n  }\n}));"
+      },
+      "id": "chunk-content",
+      "name": "Chunk Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 5,
+        "options": {}
+      },
+      "id": "batch",
+      "name": "Batch (5)",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1100, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8002/index",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ documents: $items.map(i => ({ content: i.json.content, metadata: i.json.metadata })), collection_name: 'juce-docs' }) }}",
+        "options": {
+          "timeout": 120000
+        }
+      },
+      "id": "rag-index",
+      "name": "Index to RAG",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1300, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const resp = $json;\nconst count = resp.indexed || resp.count || 0;\nconst status = resp.statusCode || resp.status || 200;\n\nreturn {\n  json: {\n    success: status >= 200 && status < 300,\n    indexed: count,\n    message: `Batch indexed: ${count} chunks`\n  }\n};"
+      },
+      "id": "log",
+      "name": "Log Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 300]
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [[{ "node": "Tier 1 URLs", "type": "main", "index": 0 }]]
+    },
+    "Tier 1 URLs": {
+      "main": [[{ "node": "Fetch Page", "type": "main", "index": 0 }]]
+    },
+    "Fetch Page": {
+      "main": [[{ "node": "Extract & Clean", "type": "main", "index": 0 }]]
+    },
+    "Extract & Clean": {
+      "main": [[{ "node": "Chunk Content", "type": "main", "index": 0 }]]
+    },
+    "Chunk Content": {
+      "main": [[{ "node": "Batch (5)", "type": "main", "index": 0 }]]
+    },
+    "Batch (5)": {
+      "main": [[{ "node": "Index to RAG", "type": "main", "index": 0 }]]
+    },
+    "Index to RAG": {
+      "main": [[{ "node": "Log Result", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}

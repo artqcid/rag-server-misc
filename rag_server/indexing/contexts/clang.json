@@ -1,0 +1,67 @@
+{
+  "context": "clang",
+  "library": "Clang",
+  "description": "Clang C/C++ Compiler Documentation",
+  "collection": "clang-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "Clang Documentation",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://clang.llvm.org/docs/index.html",
+        "https://clang.llvm.org/docs/UsersManual.html",
+        "https://clang.llvm.org/docs/CommandGuide/clang.html",
+        "https://clang.llvm.org/docs/ClangCommandLineReference.html",
+        "https://clang.llvm.org/docs/DiagnosticsReference.html",
+        "https://clang.llvm.org/docs/LanguageExtensions.html",
+        "https://clang.llvm.org/docs/AttributeReference.html",
+        "https://clang.llvm.org/docs/AddressSanitizer.html",
+        "https://clang.llvm.org/docs/ThreadSanitizer.html",
+        "https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html",
+        "https://clang.llvm.org/docs/ClangFormat.html",
+        "https://clang.llvm.org/docs/ClangFormatStyleOptions.html",
+        "https://clang.llvm.org/docs/LibTooling.html",
+        "https://clang.llvm.org/docs/LibASTMatchersReference.html",
+        "https://clang.llvm.org/docs/JSONCompilationDatabase.html"
+      ]
+    },
+    "tier2_analysis": {
+      "description": "Clang Static Analysis",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://clang.llvm.org/docs/ClangStaticAnalyzer.html",
+        "https://clang.llvm.org/docs/analyzer/checkers.html",
+        "https://clang.llvm.org/docs/ClangCheck.html",
+        "https://clang.llvm.org/docs/ClangTidy.html",
+        "https://clang.llvm.org/extra/clang-tidy/",
+        "https://clang.llvm.org/extra/clang-tidy/checks/list.html"
+      ]
+    },
+    "tier3_tooling": {
+      "description": "Clang Tooling and Refactoring",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://clang.llvm.org/docs/RefactoringEngine.html",
+        "https://clang.llvm.org/docs/HowToSetupToolingForLLVM.html",
+        "https://clang.llvm.org/docs/IntroductionToTheClangAST.html",
+        "https://clang.llvm.org/docs/RAVFrontendAction.html",
+        "https://clang.llvm.org/docs/ExternalClangExamples.html"
+      ]
+    },
+    "tier4_internals": {
+      "description": "Clang Internals and Development",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://clang.llvm.org/docs/InternalsManual.html",
+        "https://clang.llvm.org/docs/DriverInternals.html",
+        "https://clang.llvm.org/docs/PCHInternals.html",
+        "https://clang.llvm.org/docs/LibFormat.html",
+        "https://clang.llvm.org/doxygen/"
+      ]
+    }
+  }
+}

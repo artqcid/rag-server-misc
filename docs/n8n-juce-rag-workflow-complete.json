@@ -1,0 +1,344 @@
+{
+  "name": "JUCE RAG Ingest - Complete Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "start",
+      "name": "Master Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [100, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Master: Generate all tier configurations\nconst tiers = [\n  { tier: 1, name: 'Overview Pages' },\n  { tier: 2, name: 'Tutorials' },\n  { tier: 3, name: 'Class Reference' },\n  { tier: 4, name: 'GitHub Headers' }\n];\n\nreturn tiers.map(t => ({ json: t }));"
+      },
+      "id": "master-dispatcher",
+      "name": "Master Dispatcher",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [300, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "number": [
+            {
+              "value1": "={{ $json.tier }}",
+              "operation": "equal",
+              "value2": 1
+            }
+          ]
+        }
+      },
+      "id": "switch-tier",
+      "name": "Switch Tier",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 2,
+      "position": [500, 300],
+      "outputs": ["Tier 1", "Tier 2", "Tier 3", "Tier 4"]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ============================================\n// TIER 1: JUCE Overview Pages\n// ============================================\nconst urls = [\n  'https://juce.com/',\n  'https://juce.com/features/',\n  'https://juce.com/discover/',\n  'https://docs.juce.com/master/',\n  'https://docs.juce.com/master/index.html',\n  'https://docs.juce.com/master/modules.html'\n];\n\nreturn urls.map(url => ({\n  json: {\n    url: url,\n    metadata: {\n      source: 'web',\n      url: url,\n      title: 'JUCE ' + (url.includes('features') ? 'Features' : url.includes('discover') ? 'Discover' : url.includes('modules') ? 'Modules' : 'Overview'),\n      doc_type: 'overview',\n      library: 'JUCE',\n      module: 'core',\n      chunk: 1\n    }\n  }\n}));"
+      },
+      "id": "tier1-urls",
+      "name": "Tier 1: Overview URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 100]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ============================================\n// TIER 2: JUCE Tutorials\n// ============================================\nconst tutorials = [\n  // Getting Started\n  { slug: 'tutorial_new_projucer_project', module: 'getting_started', title: 'Create a new Projucer project' },\n  { slug: 'tutorial_manage_projucer_project', module: 'getting_started', title: 'Manage Projucer project' },\n  { slug: 'tutorial_code_basic_plugin', module: 'getting_started', title: 'Code a basic plugin' },\n  \n  // Audio\n  { slug: 'tutorial_processing_audio_input', module: 'audio', title: 'Processing audio input' },\n  { slug: 'tutorial_wavetable_synth', module: 'audio', title: 'Wavetable synthesis' },\n  { slug: 'tutorial_synth_using_midi_input', module: 'audio', title: 'Synth using MIDI input' },\n  { slug: 'tutorial_audio_processor_value_tree_state', module: 'audio', title: 'AudioProcessorValueTreeState' },\n  { slug: 'tutorial_audio_processor_graph', module: 'audio', title: 'AudioProcessorGraph' },\n  { slug: 'tutorial_looping_audio_sample_buffer', module: 'audio', title: 'Looping audio sample buffer' },\n  { slug: 'tutorial_looping_audio_sample_buffer_advanced', module: 'audio', title: 'Looping audio (advanced)' },\n  \n  // DSP\n  { slug: 'tutorial_dsp_introduction', module: 'dsp', title: 'DSP Introduction' },\n  { slug: 'tutorial_dsp_convolution', module: 'dsp', title: 'DSP Convolution' },\n  { slug: 'tutorial_dsp_delay_line', module: 'dsp', title: 'DSP Delay line' },\n  \n  // GUI\n  { slug: 'tutorial_main_component', module: 'gui', title: 'Main component' },\n  { slug: 'tutorial_main_window', module: 'gui', title: 'Main window' },\n  { slug: 'tutorial_app_and_window_components', module: 'gui', title: 'App and window components' },\n  { slug: 'tutorial_parent_child_components', module: 'gui', title: 'Parent child components' },\n  { slug: 'tutorial_listeners_and_broadcasters', module: 'gui', title: 'Listeners and broadcasters' },\n  { slug: 'tutorial_slider_values', module: 'gui', title: 'Slider values' },\n  { slug: 'tutorial_label', module: 'gui', title: 'Label component' },\n  { slug: 'tutorial_combo_box', module: 'gui', title: 'ComboBox component' },\n  { slug: 'tutorial_radio_buttons_checkboxes', module: 'gui', title: 'Radio buttons and checkboxes' },\n  { slug: 'tutorial_colours', module: 'gui', title: 'Working with colours' },\n  { slug: 'tutorial_look_and_feel_customisation', module: 'gui', title: 'LookAndFeel customisation' },\n  \n  // MIDI\n  { slug: 'tutorial_handling_midi_events', module: 'midi', title: 'Handling MIDI events' },\n  { slug: 'tutorial_midi_message', module: 'midi', title: 'MIDI message' },\n  \n  // Plugin Development\n  { slug: 'tutorial_create_projucer_basic_plugin', module: 'plugins', title: 'Create basic plugin' },\n  { slug: 'tutorial_audio_plugin_state', module: 'plugins', title: 'Audio plugin state' },\n  { slug: 'tutorial_plugin_examples', module: 'plugins', title: 'Plugin examples' }\n];\n\nconst baseUrl = 'https://juce.com/tutorials/';\n\nreturn tutorials.map(t => ({\n  json: {\n    url: baseUrl + t.slug + '/',\n    metadata: {\n      source: 'web',\n      url: baseUrl + t.slug + '/',\n      title: t.title,\n      doc_type: 'tutorial',\n      library: 'JUCE',\n      module: t.module,\n      chunk: 1\n    }\n  }\n}));"
+      },
+      "id": "tier2-urls",
+      "name": "Tier 2: Tutorial URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 250]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ============================================\n// TIER 3: JUCE Class Reference Pages\n// ============================================\nconst classes = [\n  // Audio Basics\n  { name: 'AudioBuffer', module: 'juce_audio_basics', doc: 'classAudioBuffer' },\n  { name: 'AudioSampleBuffer', module: 'juce_audio_basics', doc: 'classAudioSampleBuffer' },\n  { name: 'MidiMessage', module: 'juce_audio_basics', doc: 'classMidiMessage' },\n  { name: 'MidiBuffer', module: 'juce_audio_basics', doc: 'classMidiBuffer' },\n  { name: 'MidiFile', module: 'juce_audio_basics', doc: 'classMidiFile' },\n  { name: 'MidiKeyboardState', module: 'juce_audio_basics', doc: 'classMidiKeyboardState' },\n  \n  // Audio Processors\n  { name: 'AudioProcessor', module: 'juce_audio_processors', doc: 'classAudioProcessor' },\n  { name: 'AudioProcessorEditor', module: 'juce_audio_processors', doc: 'classAudioProcessorEditor' },\n  { name: 'AudioProcessorValueTreeState', module: 'juce_audio_processors', doc: 'classAudioProcessorValueTreeState' },\n  { name: 'AudioProcessorGraph', module: 'juce_audio_processors', doc: 'classAudioProcessorGraph' },\n  { name: 'AudioPluginInstance', module: 'juce_audio_processors', doc: 'classAudioPluginInstance' },\n  \n  // Audio Devices\n  { name: 'AudioDeviceManager', module: 'juce_audio_devices', doc: 'classAudioDeviceManager' },\n  { name: 'AudioIODevice', module: 'juce_audio_devices', doc: 'classAudioIODevice' },\n  { name: 'MidiInput', module: 'juce_audio_devices', doc: 'classMidiInput' },\n  { name: 'MidiOutput', module: 'juce_audio_devices', doc: 'classMidiOutput' },\n  \n  // Audio Formats\n  { name: 'AudioFormatReader', module: 'juce_audio_formats', doc: 'classAudioFormatReader' },\n  { name: 'AudioFormatWriter', module: 'juce_audio_formats', doc: 'classAudioFormatWriter' },\n  { name: 'AudioThumbnail', module: 'juce_audio_formats', doc: 'classAudioThumbnail' },\n  \n  // Audio Utils\n  { name: 'AudioTransportSource', module: 'juce_audio_utils', doc: 'classAudioTransportSource' },\n  { name: 'AudioAppComponent', module: 'juce_audio_utils', doc: 'classAudioAppComponent' },\n  { name: 'MidiKeyboardComponent', module: 'juce_audio_utils', doc: 'classMidiKeyboardComponent' },\n  \n  // GUI Basics\n  { name: 'Component', module: 'juce_gui_basics', doc: 'classComponent' },\n  { name: 'Button', module: 'juce_gui_basics', doc: 'classButton' },\n  { name: 'TextButton', module: 'juce_gui_basics', doc: 'classTextButton' },\n  { name: 'ToggleButton', module: 'juce_gui_basics', doc: 'classToggleButton' },\n  { name: 'Slider', module: 'juce_gui_basics', doc: 'classSlider' },\n  { name: 'Label', module: 'juce_gui_basics', doc: 'classLabel' },\n  { name: 'ComboBox', module: 'juce_gui_basics', doc: 'classComboBox' },\n  { name: 'TextEditor', module: 'juce_gui_basics', doc: 'classTextEditor' },\n  { name: 'ListBox', module: 'juce_gui_basics', doc: 'classListBox' },\n  { name: 'TreeView', module: 'juce_gui_basics', doc: 'classTreeView' },\n  { name: 'LookAndFeel', module: 'juce_gui_basics', doc: 'classLookAndFeel' },\n  { name: 'LookAndFeel_V4', module: 'juce_gui_basics', doc: 'classLookAndFeel__V4' },\n  { name: 'Graphics', module: 'juce_gui_basics', doc: 'classGraphics' },\n  { name: 'Colour', module: 'juce_gui_basics', doc: 'classColour' },\n  { name: 'Path', module: 'juce_gui_basics', doc: 'classPath' },\n  \n  // GUI Extra\n  { name: 'DocumentWindow', module: 'juce_gui_extra', doc: 'classDocumentWindow' },\n  { name: 'FileChooser', module: 'juce_gui_extra', doc: 'classFileChooser' },\n  { name: 'CodeEditorComponent', module: 'juce_gui_extra', doc: 'classCodeEditorComponent' },\n  \n  // Core\n  { name: 'String', module: 'juce_core', doc: 'classString' },\n  { name: 'StringArray', module: 'juce_core', doc: 'classStringArray' },\n  { name: 'File', module: 'juce_core', doc: 'classFile' },\n  { name: 'MemoryBlock', module: 'juce_core', doc: 'classMemoryBlock' },\n  { name: 'var', module: 'juce_core', doc: 'classvar' },\n  { name: 'Array', module: 'juce_core', doc: 'classArray' },\n  { name: 'OwnedArray', module: 'juce_core', doc: 'classOwnedArray' },\n  { name: 'ReferenceCountedArray', module: 'juce_core', doc: 'classReferenceCountedArray' },\n  { name: 'Thread', module: 'juce_core', doc: 'classThread' },\n  { name: 'Timer', module: 'juce_core', doc: 'classTimer' },\n  { name: 'URL', module: 'juce_core', doc: 'classURL' },\n  { name: 'JSON', module: 'juce_core', doc: 'classJSON' },\n  { name: 'XmlElement', module: 'juce_core', doc: 'classXmlElement' },\n  \n  // Data Structures\n  { name: 'ValueTree', module: 'juce_data_structures', doc: 'classValueTree' },\n  { name: 'Value', module: 'juce_data_structures', doc: 'classValue' },\n  { name: 'UndoManager', module: 'juce_data_structures', doc: 'classUndoManager' },\n  \n  // Events\n  { name: 'ActionBroadcaster', module: 'juce_events', doc: 'classActionBroadcaster' },\n  { name: 'ActionListener', module: 'juce_events', doc: 'classActionListener' },\n  { name: 'ChangeListener', module: 'juce_events', doc: 'classChangeListener' },\n  { name: 'ChangeBroadcaster', module: 'juce_events', doc: 'classChangeBroadcaster' },\n  { name: 'AsyncUpdater', module: 'juce_events', doc: 'classAsyncUpdater' },\n  \n  // DSP\n  { name: 'dsp::IIR::Filter', module: 'juce_dsp', doc: 'classdsp_1_1IIR_1_1Filter' },\n  { name: 'dsp::Convolution', module: 'juce_dsp', doc: 'classdsp_1_1Convolution' },\n  { name: 'dsp::Reverb', module: 'juce_dsp', doc: 'classdsp_1_1Reverb' },\n  { name: 'dsp::Gain', module: 'juce_dsp', doc: 'classdsp_1_1Gain' },\n  { name: 'dsp::Oscillator', module: 'juce_dsp', doc: 'classdsp_1_1Oscillator' },\n  { name: 'dsp::ProcessorChain', module: 'juce_dsp', doc: 'classdsp_1_1ProcessorChain' },\n  { name: 'dsp::ProcessSpec', module: 'juce_dsp', doc: 'structdsp_1_1ProcessSpec' },\n  { name: 'dsp::AudioBlock', module: 'juce_dsp', doc: 'classdsp_1_1AudioBlock' },\n  { name: 'dsp::DelayLine', module: 'juce_dsp', doc: 'classdsp_1_1DelayLine' },\n  { name: 'dsp::Oversampling', module: 'juce_dsp', doc: 'classdsp_1_1Oversampling' }\n];\n\nconst baseUrl = 'https://docs.juce.com/master/';\n\nreturn classes.map(c => ({\n  json: {\n    url: baseUrl + c.doc + '.html',\n    metadata: {\n      source: 'web',\n      url: baseUrl + c.doc + '.html',\n      title: c.name + ' Class Reference',\n      doc_type: 'class-reference',\n      library: 'JUCE',\n      module: c.module,\n      symbol: c.name,\n      symbol_type: 'class',\n      chunk: 1\n    }\n  }\n}));"
+      },
+      "id": "tier3-urls",
+      "name": "Tier 3: Class Reference URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 400]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "// ============================================\n// TIER 4: JUCE GitHub Header Files (Verified)\n// ============================================\nconst headers = [\n  // Module Main Headers (15)\n  { path: 'modules/juce_core/juce_core.h', module: 'juce_core', symbol: 'juce_core' },\n  { path: 'modules/juce_audio_basics/juce_audio_basics.h', module: 'juce_audio_basics', symbol: 'juce_audio_basics' },\n  { path: 'modules/juce_audio_devices/juce_audio_devices.h', module: 'juce_audio_devices', symbol: 'juce_audio_devices' },\n  { path: 'modules/juce_audio_formats/juce_audio_formats.h', module: 'juce_audio_formats', symbol: 'juce_audio_formats' },\n  { path: 'modules/juce_audio_processors/juce_audio_processors.h', module: 'juce_audio_processors', symbol: 'juce_audio_processors' },\n  { path: 'modules/juce_audio_utils/juce_audio_utils.h', module: 'juce_audio_utils', symbol: 'juce_audio_utils' },\n  { path: 'modules/juce_gui_basics/juce_gui_basics.h', module: 'juce_gui_basics', symbol: 'juce_gui_basics' },\n  { path: 'modules/juce_gui_extra/juce_gui_extra.h', module: 'juce_gui_extra', symbol: 'juce_gui_extra' },\n  { path: 'modules/juce_graphics/juce_graphics.h', module: 'juce_graphics', symbol: 'juce_graphics' },\n  { path: 'modules/juce_data_structures/juce_data_structures.h', module: 'juce_data_structures', symbol: 'juce_data_structures' },\n  { path: 'modules/juce_events/juce_events.h', module: 'juce_events', symbol: 'juce_events' },\n  { path: 'modules/juce_dsp/juce_dsp.h', module: 'juce_dsp', symbol: 'juce_dsp' },\n  { path: 'modules/juce_opengl/juce_opengl.h', module: 'juce_opengl', symbol: 'juce_opengl' },\n  { path: 'modules/juce_osc/juce_osc.h', module: 'juce_osc', symbol: 'juce_osc' },\n  { path: 'modules/juce_cryptography/juce_cryptography.h', module: 'juce_cryptography', symbol: 'juce_cryptography' },\n  \n  // Audio Basics - Buffers (3)\n  { path: 'modules/juce_audio_basics/buffers/juce_AudioSampleBuffer.h', module: 'juce_audio_basics', symbol: 'AudioSampleBuffer' },\n  { path: 'modules/juce_audio_basics/buffers/juce_AudioChannelSet.h', module: 'juce_audio_basics', symbol: 'AudioChannelSet' },\n  { path: 'modules/juce_audio_basics/buffers/juce_FloatVectorOperations.h', module: 'juce_audio_basics', symbol: 'FloatVectorOperations' },\n  \n  // Audio Basics - MIDI (4)\n  { path: 'modules/juce_audio_basics/midi/juce_MidiMessage.h', module: 'juce_audio_basics', symbol: 'MidiMessage' },\n  { path: 'modules/juce_audio_basics/midi/juce_MidiBuffer.h', module: 'juce_audio_basics', symbol: 'MidiBuffer' },\n  { path: 'modules/juce_audio_basics/midi/juce_MidiFile.h', module: 'juce_audio_basics', symbol: 'MidiFile' },\n  { path: 'modules/juce_audio_basics/midi/juce_MidiKeyboardState.h', module: 'juce_audio_basics', symbol: 'MidiKeyboardState' },\n  \n  // Audio Processors - Utilities (3)\n  { path: 'modules/juce_audio_processors/utilities/juce_AudioProcessorValueTreeState.h', module: 'juce_audio_processors', symbol: 'AudioProcessorValueTreeState' },\n  { path: 'modules/juce_audio_processors/utilities/juce_ParameterAttachments.h', module: 'juce_audio_processors', symbol: 'ParameterAttachments' },\n  { path: 'modules/juce_audio_processors/utilities/juce_PluginHostType.h', module: 'juce_audio_processors', symbol: 'PluginHostType' },\n  \n  // Audio Processors - Processors (2)\n  { path: 'modules/juce_audio_processors/processors/juce_AudioProcessorEditor.h', module: 'juce_audio_processors', symbol: 'AudioProcessorEditor' },\n  { path: 'modules/juce_audio_processors/processors/juce_GenericAudioProcessorEditor.h', module: 'juce_audio_processors', symbol: 'GenericAudioProcessorEditor' },\n  \n  // GUI Basics - Widgets (14)\n  { path: 'modules/juce_gui_basics/widgets/juce_ComboBox.h', module: 'juce_gui_basics', symbol: 'ComboBox' },\n  { path: 'modules/juce_gui_basics/widgets/juce_Label.h', module: 'juce_gui_basics', symbol: 'Label' },\n  { path: 'modules/juce_gui_basics/widgets/juce_Slider.h', module: 'juce_gui_basics', symbol: 'Slider' },\n  { path: 'modules/juce_gui_basics/widgets/juce_TextEditor.h', module: 'juce_gui_basics', symbol: 'TextEditor' },\n  { path: 'modules/juce_gui_basics/widgets/juce_ListBox.h', module: 'juce_gui_basics', symbol: 'ListBox' },\n  { path: 'modules/juce_gui_basics/widgets/juce_TreeView.h', module: 'juce_gui_basics', symbol: 'TreeView' },\n  { path: 'modules/juce_gui_basics/widgets/juce_TableListBox.h', module: 'juce_gui_basics', symbol: 'TableListBox' },\n  { path: 'modules/juce_gui_basics/widgets/juce_TableHeaderComponent.h', module: 'juce_gui_basics', symbol: 'TableHeaderComponent' },\n  { path: 'modules/juce_gui_basics/widgets/juce_ProgressBar.h', module: 'juce_gui_basics', symbol: 'ProgressBar' },\n  { path: 'modules/juce_gui_basics/widgets/juce_ImageComponent.h', module: 'juce_gui_basics', symbol: 'ImageComponent' },\n  { path: 'modules/juce_gui_basics/widgets/juce_Toolbar.h', module: 'juce_gui_basics', symbol: 'Toolbar' },\n  { path: 'modules/juce_gui_basics/widgets/juce_ToolbarItemComponent.h', module: 'juce_gui_basics', symbol: 'ToolbarItemComponent' },\n  { path: 'modules/juce_gui_basics/widgets/juce_ToolbarItemPalette.h', module: 'juce_gui_basics', symbol: 'ToolbarItemPalette' },\n  { path: 'modules/juce_gui_basics/widgets/juce_ToolbarItemFactory.h', module: 'juce_gui_basics', symbol: 'ToolbarItemFactory' },\n  \n  // GUI Basics - Buttons (9)\n  { path: 'modules/juce_gui_basics/buttons/juce_Button.h', module: 'juce_gui_basics', symbol: 'Button' },\n  { path: 'modules/juce_gui_basics/buttons/juce_TextButton.h', module: 'juce_gui_basics', symbol: 'TextButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_ToggleButton.h', module: 'juce_gui_basics', symbol: 'ToggleButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_DrawableButton.h', module: 'juce_gui_basics', symbol: 'DrawableButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_ImageButton.h', module: 'juce_gui_basics', symbol: 'ImageButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_ShapeButton.h', module: 'juce_gui_basics', symbol: 'ShapeButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_HyperlinkButton.h', module: 'juce_gui_basics', symbol: 'HyperlinkButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_ArrowButton.h', module: 'juce_gui_basics', symbol: 'ArrowButton' },\n  { path: 'modules/juce_gui_basics/buttons/juce_ToolbarButton.h', module: 'juce_gui_basics', symbol: 'ToolbarButton' },\n  \n  // GUI Basics - Components (5)\n  { path: 'modules/juce_gui_basics/components/juce_Component.h', module: 'juce_gui_basics', symbol: 'Component' },\n  { path: 'modules/juce_gui_basics/components/juce_ComponentListener.h', module: 'juce_gui_basics', symbol: 'ComponentListener' },\n  { path: 'modules/juce_gui_basics/components/juce_FocusTraverser.h', module: 'juce_gui_basics', symbol: 'FocusTraverser' },\n  { path: 'modules/juce_gui_basics/components/juce_ModalComponentManager.h', module: 'juce_gui_basics', symbol: 'ModalComponentManager' },\n  { path: 'modules/juce_gui_basics/components/juce_ComponentTraverser.h', module: 'juce_gui_basics', symbol: 'ComponentTraverser' },\n  \n  // Core - Text (7)\n  { path: 'modules/juce_core/text/juce_String.h', module: 'juce_core', symbol: 'String' },\n  { path: 'modules/juce_core/text/juce_StringArray.h', module: 'juce_core', symbol: 'StringArray' },\n  { path: 'modules/juce_core/text/juce_Identifier.h', module: 'juce_core', symbol: 'Identifier' },\n  { path: 'modules/juce_core/text/juce_CharacterFunctions.h', module: 'juce_core', symbol: 'CharacterFunctions' },\n  { path: 'modules/juce_core/text/juce_LocalisedStrings.h', module: 'juce_core', symbol: 'LocalisedStrings' },\n  { path: 'modules/juce_core/text/juce_StringRef.h', module: 'juce_core', symbol: 'StringRef' },\n  { path: 'modules/juce_core/text/juce_StringPairArray.h', module: 'juce_core', symbol: 'StringPairArray' },\n  \n  // Core - Files (7)\n  { path: 'modules/juce_core/files/juce_File.h', module: 'juce_core', symbol: 'File' },\n  { path: 'modules/juce_core/files/juce_FileInputStream.h', module: 'juce_core', symbol: 'FileInputStream' },\n  { path: 'modules/juce_core/files/juce_FileOutputStream.h', module: 'juce_core', symbol: 'FileOutputStream' },\n  { path: 'modules/juce_core/files/juce_DirectoryIterator.h', module: 'juce_core', symbol: 'DirectoryIterator' },\n  { path: 'modules/juce_core/files/juce_FileSearchPath.h', module: 'juce_core', symbol: 'FileSearchPath' },\n  { path: 'modules/juce_core/files/juce_FileFilter.h', module: 'juce_core', symbol: 'FileFilter' },\n  { path: 'modules/juce_core/files/juce_TemporaryFile.h', module: 'juce_core', symbol: 'TemporaryFile' },\n  \n  // Data Structures - Values (4)\n  { path: 'modules/juce_data_structures/values/juce_ValueTree.h', module: 'juce_data_structures', symbol: 'ValueTree' },\n  { path: 'modules/juce_data_structures/values/juce_Value.h', module: 'juce_data_structures', symbol: 'Value' },\n  { path: 'modules/juce_data_structures/values/juce_CachedValue.h', module: 'juce_data_structures', symbol: 'CachedValue' },\n  { path: 'modules/juce_data_structures/values/juce_ValueTreeSynchroniser.h', module: 'juce_data_structures', symbol: 'ValueTreeSynchroniser' },\n  \n  // DSP - Processors (15)\n  { path: 'modules/juce_dsp/processors/juce_IIRFilter.h', module: 'juce_dsp', symbol: 'IIRFilter' },\n  { path: 'modules/juce_dsp/processors/juce_FIRFilter.h', module: 'juce_dsp', symbol: 'FIRFilter' },\n  { path: 'modules/juce_dsp/processors/juce_Oversampling.h', module: 'juce_dsp', symbol: 'Oversampling' },\n  { path: 'modules/juce_dsp/processors/juce_DelayLine.h', module: 'juce_dsp', symbol: 'DelayLine' },\n  { path: 'modules/juce_dsp/processors/juce_Panner.h', module: 'juce_dsp', symbol: 'Panner' },\n  { path: 'modules/juce_dsp/processors/juce_DryWetMixer.h', module: 'juce_dsp', symbol: 'DryWetMixer' },\n  { path: 'modules/juce_dsp/processors/juce_ProcessorChain.h', module: 'juce_dsp', symbol: 'ProcessorChain' },\n  { path: 'modules/juce_dsp/processors/juce_StateVariableTPTFilter.h', module: 'juce_dsp', symbol: 'StateVariableTPTFilter' },\n  { path: 'modules/juce_dsp/processors/juce_StateVariableFilter.h', module: 'juce_dsp', symbol: 'StateVariableFilter' },\n  { path: 'modules/juce_dsp/processors/juce_LinkwitzRileyFilter.h', module: 'juce_dsp', symbol: 'LinkwitzRileyFilter' },\n  { path: 'modules/juce_dsp/processors/juce_FirstOrderTPTFilter.h', module: 'juce_dsp', symbol: 'FirstOrderTPTFilter' },\n  { path: 'modules/juce_dsp/processors/juce_BallisticsFilter.h', module: 'juce_dsp', symbol: 'BallisticsFilter' },\n  { path: 'modules/juce_dsp/processors/juce_ProcessContext.h', module: 'juce_dsp', symbol: 'ProcessContext' },\n  { path: 'modules/juce_dsp/processors/juce_ProcessorDuplicator.h', module: 'juce_dsp', symbol: 'ProcessorDuplicator' },\n  { path: 'modules/juce_dsp/processors/juce_ProcessorWrapper.h', module: 'juce_dsp', symbol: 'ProcessorWrapper' }\n];\n\nconst baseUrl = 'https://raw.githubusercontent.com/juce-framework/JUCE/master/';\n\nreturn headers.map(h => ({\n  json: {\n    url: baseUrl + h.path,\n    metadata: {\n      source: 'github',\n      url: baseUrl + h.path,\n      title: h.symbol + ' Header',\n      doc_type: 'header',\n      library: 'JUCE',\n      module: h.module,\n      symbol: h.symbol,\n      symbol_type: 'header',\n      chunk: 1\n    }\n  }\n}));"
+      },
+      "id": "tier4-urls",
+      "name": "Tier 4: GitHub Header URLs",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 550]
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.url }}",
+        "options": {
+          "timeout": 30000,
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "http-request",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [950, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Extract and clean content from HTML or raw text\nconst item = $input.item;\nconst url = item.json.url || '';\nconst metadata = item.json.metadata || {};\nlet content = '';\n\n// Check if response exists\nif (item.json.data) {\n  content = item.json.data;\n} else if (item.json.body) {\n  content = item.json.body;\n} else {\n  // Skip if no content\n  return [];\n}\n\n// For HTML content, extract text\nif (typeof content === 'string' && content.includes('<html')) {\n  // Simple HTML text extraction\n  content = content\n    .replace(/<script[^>]*>[\\s\\S]*?<\\/script>/gi, '')\n    .replace(/<style[^>]*>[\\s\\S]*?<\\/style>/gi, '')\n    .replace(/<nav[^>]*>[\\s\\S]*?<\\/nav>/gi, '')\n    .replace(/<header[^>]*>[\\s\\S]*?<\\/header>/gi, '')\n    .replace(/<footer[^>]*>[\\s\\S]*?<\\/footer>/gi, '')\n    .replace(/<[^>]+>/g, ' ')\n    .replace(/&nbsp;/g, ' ')\n    .replace(/&amp;/g, '&')\n    .replace(/&lt;/g, '<')\n    .replace(/&gt;/g, '>')\n    .replace(/\\s+/g, ' ')\n    .trim();\n}\n\n// Skip if content is too short\nif (content.length < 100) {\n  return [];\n}\n\n// Truncate if too long (max 50000 chars per doc)\nif (content.length > 50000) {\n  content = content.substring(0, 50000) + '\\n\\n[Content truncated]';\n}\n\nreturn {\n  json: {\n    content: content,\n    metadata: metadata\n  }\n};"
+      },
+      "id": "extract-content",
+      "name": "Extract Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1150, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Chunk content for RAG indexing\nconst item = $input.item;\nconst content = item.json.content || '';\nconst metadata = item.json.metadata || {};\n\n// Chunk parameters\nconst CHUNK_SIZE = 1000;  // chars per chunk\nconst CHUNK_OVERLAP = 100; // overlap between chunks\n\nif (content.length <= CHUNK_SIZE) {\n  // Single chunk\n  return {\n    json: {\n      content: content,\n      metadata: { ...metadata, chunk: 1, total_chunks: 1 }\n    }\n  };\n}\n\n// Multiple chunks\nconst chunks = [];\nlet position = 0;\nlet chunkNum = 1;\n\nwhile (position < content.length) {\n  let end = position + CHUNK_SIZE;\n  \n  // Try to break at sentence/paragraph boundary\n  if (end < content.length) {\n    const breakPoints = ['\\n\\n', '.\\n', '. ', '\\n'];\n    for (const bp of breakPoints) {\n      const idx = content.lastIndexOf(bp, end);\n      if (idx > position + CHUNK_SIZE * 0.5) {\n        end = idx + bp.length;\n        break;\n      }\n    }\n  }\n  \n  const chunk = content.substring(position, end).trim();\n  if (chunk.length > 50) {\n    chunks.push({\n      json: {\n        content: chunk,\n        metadata: { ...metadata, chunk: chunkNum }\n      }\n    });\n    chunkNum++;\n  }\n  \n  position = end - CHUNK_OVERLAP;\n  if (position < 0) position = 0;\n  if (end >= content.length) break;\n}\n\n// Update total_chunks in all items\nreturn chunks.map(c => ({\n  json: {\n    ...c.json,\n    metadata: { ...c.json.metadata, total_chunks: chunks.length }\n  }\n}));"
+      },
+      "id": "chunk-content",
+      "name": "Chunk Content",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1350, 300]
+    },
+    {
+      "parameters": {
+        "batchSize": 10,
+        "options": {}
+      },
+      "id": "batch-items",
+      "name": "Batch Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [1550, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8002/index",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ documents: $items.map(i => ({ content: i.json.content, metadata: i.json.metadata })) }) }}",
+        "options": {
+          "timeout": 120000,
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "rag-index",
+      "name": "RAG Server Index",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1750, 300]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "// Log indexing result\nconst item = $input.item;\nconst statusCode = item.json.statusCode || item.json.status || 'unknown';\nconst indexed = item.json.indexed || item.json.count || 0;\n\nconsole.log(`Indexed batch: status=${statusCode}, docs=${indexed}`);\n\nreturn {\n  json: {\n    success: statusCode >= 200 && statusCode < 300,\n    indexed: indexed,\n    statusCode: statusCode\n  }\n};"
+      },
+      "id": "log-result",
+      "name": "Log Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1950, 300]
+    }
+  ],
+  "connections": {
+    "Master Start": {
+      "main": [
+        [
+          {
+            "node": "Master Dispatcher",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Master Dispatcher": {
+      "main": [
+        [
+          {
+            "node": "Switch Tier",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Tier": {
+      "main": [
+        [
+          {
+            "node": "Tier 1: Overview URLs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tier 2: Tutorial URLs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tier 3: Class Reference URLs",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tier 4: GitHub Header URLs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tier 1: Overview URLs": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tier 2: Tutorial URLs": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tier 3: Class Reference URLs": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tier 4: GitHub Header URLs": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Extract Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract Content": {
+      "main": [
+        [
+          {
+            "node": "Chunk Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Chunk Content": {
+      "main": [
+        [
+          {
+            "node": "Batch Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Batch Items": {
+      "main": [
+        [
+          {
+            "node": "RAG Server Index",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "RAG Server Index": {
+      "main": [
+        [
+          {
+            "node": "Log Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "saveDataSuccessExecution": "all"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "RAG",
+      "createdAt": "2026-01-28T00:00:00.000Z",
+      "updatedAt": "2026-01-28T00:00:00.000Z"
+    },
+    {
+      "name": "JUCE",
+      "createdAt": "2026-01-28T00:00:00.000Z",
+      "updatedAt": "2026-01-28T00:00:00.000Z"
+    }
+  ]
+}

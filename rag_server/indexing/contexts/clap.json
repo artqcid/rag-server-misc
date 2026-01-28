@@ -1,0 +1,67 @@
+{
+  "context": "clap",
+  "library": "CLAP",
+  "description": "CLAP Audio Plugin API Documentation",
+  "collection": "clap-docs",
+  "tiers": {
+    "tier1_github": {
+      "description": "CLAP GitHub Documentation",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/free-audio/clap/main/README.md",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/clap.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/plugin.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/host.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/entry.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/plugin-features.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/stream.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/events.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/process.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/audio-buffer.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/params.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/audio-ports.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/gui.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/state.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/note-ports.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/latency.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/tail.h"
+      ]
+    },
+    "tier2_extensions": {
+      "description": "CLAP Extended Features",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/timer-support.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/posix-fd-support.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/thread-check.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/render.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/voice-info.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/ext/note-name.h"
+      ]
+    },
+    "tier3_factory": {
+      "description": "CLAP Factory and Plugin Features",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/factory/plugin-factory.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/factory/draft/plugin-invalidation.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/version.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/color.h",
+        "https://raw.githubusercontent.com/free-audio/clap/main/include/clap/id.h"
+      ]
+    },
+    "tier4_docs": {
+      "description": "CLAP Documentation and Examples",
+      "source_type": "github",
+      "doc_type": "guide",
+      "urls": [
+        "https://raw.githubusercontent.com/free-audio/clap/main/CONVENTIONS.md",
+        "https://raw.githubusercontent.com/free-audio/clap/main/CHANGELOG.md",
+        "https://raw.githubusercontent.com/free-audio/clap-helpers/main/README.md"
+      ]
+    }
+  }
+}

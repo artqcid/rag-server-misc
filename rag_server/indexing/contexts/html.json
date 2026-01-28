@@ -1,0 +1,86 @@
+{
+  "context": "html",
+  "library": "HTML",
+  "description": "HTML Web Standard Documentation",
+  "collection": "html-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "MDN HTML Reference",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/HTML",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Getting_started",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/The_head_metadata_in_HTML",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/HTML_text_fundamentals",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Introduction_to_HTML/Creating_hyperlinks",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Multimedia_and_embedding",
+        "https://developer.mozilla.org/en-US/docs/Learn/HTML/Tables",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/button",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/select",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/div",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/span",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/audio",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/canvas",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/svg",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/style",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes"
+      ]
+    },
+    "tier2_forms": {
+      "description": "HTML Forms and Input Elements",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Learn/Forms",
+        "https://developer.mozilla.org/en-US/docs/Learn/Forms/Your_first_form",
+        "https://developer.mozilla.org/en-US/docs/Learn/Forms/How_to_structure_a_web_form",
+        "https://developer.mozilla.org/en-US/docs/Learn/Forms/Basic_native_form_controls",
+        "https://developer.mozilla.org/en-US/docs/Learn/Forms/HTML5_input_types",
+        "https://developer.mozilla.org/en-US/docs/Learn/Forms/Form_validation",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/textarea",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/fieldset"
+      ]
+    },
+    "tier3_semantic": {
+      "description": "HTML Semantic Elements and Accessibility",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Glossary/Semantics",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/header",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/nav",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/main",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/article",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/section",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/aside",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/footer",
+        "https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA"
+      ]
+    },
+    "tier4_advanced": {
+      "description": "HTML Advanced Features",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/slot",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/dialog",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/details",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/picture",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Microdata",
+        "https://developer.mozilla.org/en-US/docs/Web/HTML/Element/meta"
+      ]
+    }
+  }
+}

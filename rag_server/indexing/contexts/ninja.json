@@ -1,0 +1,44 @@
+{
+  "context": "ninja",
+  "library": "Ninja",
+  "description": "Ninja Build System Documentation",
+  "collection": "ninja-docs",
+  "tiers": {
+    "tier1_manual": {
+      "description": "Ninja Build Manual",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://ninja-build.org/manual.html"
+      ]
+    },
+    "tier2_github": {
+      "description": "Ninja GitHub Documentation",
+      "source_type": "github",
+      "doc_type": "guide",
+      "urls": [
+        "https://raw.githubusercontent.com/ninja-build/ninja/master/README.md",
+        "https://raw.githubusercontent.com/ninja-build/ninja/master/doc/manual.asciidoc"
+      ]
+    },
+    "tier3_reference": {
+      "description": "Ninja Build Rules and Syntax",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://ninja-build.org/manual.html#_writing_your_own_ninja_files",
+        "https://ninja-build.org/manual.html#ref_rule"
+      ]
+    },
+    "tier4_advanced": {
+      "description": "Ninja Advanced Topics",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://ninja-build.org/manual.html#ref_pool",
+        "https://ninja-build.org/manual.html#ref_console_pool",
+        "https://ninja-build.org/manual.html#ref_deps"
+      ]
+    }
+  }
+}

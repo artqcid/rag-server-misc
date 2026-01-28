@@ -1,0 +1,109 @@
+{
+  "context": "js",
+  "library": "JavaScript",
+  "description": "JavaScript Language Documentation",
+  "collection": "js-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "MDN JavaScript Reference",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide",
+        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/First_steps",
+        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks",
+        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects",
+        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Map",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Iteration_protocols",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/await",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop"
+      ]
+    },
+    "tier2_dom": {
+      "description": "JavaScript DOM and Web APIs",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Document",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Element",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Node",
+        "https://developer.mozilla.org/en-US/docs/Web/API/EventTarget",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Event",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Storage"
+      ]
+    },
+    "tier3_modern": {
+      "description": "Modern JavaScript Features",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/WeakMap",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Reflect"
+      ]
+    },
+    "tier4_advanced": {
+      "description": "Advanced JavaScript and Web APIs",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/WebSocket",
+        "https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/WebRTC_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API",
+        "https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API"
+      ]
+    },
+    "tier5_typescript": {
+      "description": "TypeScript Language Documentation",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://www.typescriptlang.org/docs/",
+        "https://www.typescriptlang.org/docs/handbook/intro.html",
+        "https://www.typescriptlang.org/docs/handbook/2/basic-types.html",
+        "https://www.typescriptlang.org/docs/handbook/2/everyday-types.html",
+        "https://www.typescriptlang.org/docs/handbook/2/narrowing.html",
+        "https://www.typescriptlang.org/docs/handbook/2/functions.html",
+        "https://www.typescriptlang.org/docs/handbook/2/objects.html",
+        "https://www.typescriptlang.org/docs/handbook/2/classes.html",
+        "https://www.typescriptlang.org/docs/handbook/2/generics.html",
+        "https://www.typescriptlang.org/docs/handbook/2/types-from-types.html",
+        "https://www.typescriptlang.org/docs/handbook/2/conditional-types.html",
+        "https://www.typescriptlang.org/docs/handbook/utility-types.html",
+        "https://www.typescriptlang.org/docs/handbook/decorators.html",
+        "https://www.typescriptlang.org/docs/handbook/declaration-files/introduction.html",
+        "https://www.typescriptlang.org/tsconfig"
+      ]
+    }
+  }
+}

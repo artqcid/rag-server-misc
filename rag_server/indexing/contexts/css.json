@@ -1,0 +1,85 @@
+{
+  "context": "css",
+  "library": "CSS",
+  "description": "CSS Web Standard Documentation",
+  "collection": "css-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "MDN CSS Reference",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/CSS",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/Reference",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/Building_blocks",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/Styling_text",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Selectors",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Box_Model",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Grid_Layout",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Positioning",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transitions",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Transforms",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Colors",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Fonts",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Text",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/display",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/position",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/flex",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/grid",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/margin",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/padding",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/border"
+      ]
+    },
+    "tier2_layout": {
+      "description": "CSS Layout Techniques",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Introduction",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Normal_Flow",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Flexbox",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Grids",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Positioning",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Multiple-column_Layout",
+        "https://developer.mozilla.org/en-US/docs/Learn/CSS/CSS_layout/Responsive_Design",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Container_Queries"
+      ]
+    },
+    "tier3_advanced": {
+      "description": "CSS Advanced Selectors and Properties",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Functions",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Variables",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/@supports",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/@media",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/@layer",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/@container"
+      ]
+    },
+    "tier4_modern": {
+      "description": "Modern CSS Features",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Cascade",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/Specificity",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Nesting",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Scroll_Snap",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/filter",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path",
+        "https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Houdini"
+      ]
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "context": "json",
+  "library": "JSON",
+  "description": "JSON Data Format Documentation",
+  "collection": "json-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "JSON Specification and References",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://www.json.org/json-en.html",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/parse",
+        "https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify",
+        "https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Objects/JSON"
+      ]
+    },
+    "tier2_schema": {
+      "description": "JSON Schema and Validation",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://json-schema.org/",
+        "https://json-schema.org/understanding-json-schema/",
+        "https://json-schema.org/understanding-json-schema/reference/",
+        "https://json-schema.org/understanding-json-schema/basics"
+      ]
+    },
+    "tier3_formats": {
+      "description": "JSON-based Formats",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://geojson.org/",
+        "https://www.openapis.org/",
+        "https://developer.mozilla.org/en-US/docs/Web/Manifest"
+      ]
+    },
+    "tier4_advanced": {
+      "description": "Advanced JSON Topics",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://jsonld.com/",
+        "https://json-ld.org/",
+        "https://jsonapi.org/"
+      ]
+    }
+  }
+}

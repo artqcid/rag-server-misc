@@ -7,6 +7,7 @@ Local RAG (Retrieval-Augmented Generation) server using Qdrant for vector storag
 - **Vector Database**: Native Qdrant support (portable binary)
 - **Embedding Integration**: Uses local embedding-server-misc (Port 8001)
 - **LLM Integration**: Uses local LLM server (Port 8080)
+- **Hybrid Search**: Dense + Sparse (BM25) vectors with RRF fusion
 - **Hybrid Chunking**: Fixed-size + sentence-based strategies
 - **FastAPI Server**: RESTful API on Port 8002
 - **Auto Collection Management**: Creates collections on startup
@@ -16,9 +17,46 @@ Local RAG (Retrieval-Augmented Generation) server using Qdrant for vector storag
 ```
 RAG Server (Port 8002)
     ├── Vector DB: Qdrant (Port 6333)
+    │   ├── Dense Vectors: nomic-embed-text (768d)
+    │   └── Sparse Vectors: BM25 (30k vocab)
     ├── Embeddings: embedding-server-misc (Port 8001)
     └── LLM: llama.cpp server (Port 8080)
 ```
+
+## Hybrid Search
+
+The server supports **Hybrid Search** combining:
+- **Dense Vectors**: Semantic similarity via embeddings (nomic-embed-text)
+- **Sparse Vectors**: Keyword matching via BM25 encoding
+
+### How It Works
+
+1. **New collections** are created with both dense and sparse vector support
+2. **Indexing** generates both vector types for each chunk
+3. **Search** uses Qdrant's RRF (Reciprocal Rank Fusion) to combine results
+4. **Legacy collections** automatically fall back to dense-only search
+
+### Configuration
+
+```powershell
+# Enable/disable hybrid search (default: true)
+$env:RAG_ENABLE_HYBRID_SEARCH = "true"
+
+# Vector weights for fusion
+$env:RAG_DENSE_WEIGHT = "0.7"
+$env:RAG_SPARSE_WEIGHT = "0.3"
+
+# BM25 vocabulary size
+$env:RAG_SPARSE_VOCAB_SIZE = "30000"
+```
+
+### Benefits
+
+| Query Type | Dense Only | Hybrid |
+|------------|-----------|--------|
+| Semantic ("audio processing") | ✅ Good | ✅ Good |
+| Exact keywords ("AudioSource") | ⚠️ Variable | ✅ Excellent |
+| Mixed queries | ⚠️ Variable | ✅ Best of both |
 
 ## Installation
 
@@ -152,11 +190,12 @@ rag-server-misc/
 │   ├── models.py             # Pydantic models
 │   ├── vector_db/
 │   │   ├── interface.py      # Abstract base
-│   │   └── qdrant_client.py  # Qdrant implementation
+│   │   └── qdrant_client.py  # Qdrant implementation (hybrid support)
 │   ├── embeddings.py         # Embedding client
 │   ├── llm_client.py         # LLM client
 │   ├── query_engine.py       # RAG pipeline
-│   └── chunking.py           # Text chunking
+│   ├── chunking.py           # Text chunking
+│   └── sparse_encoder.py     # BM25 sparse encoder
 └── tests/
 ```
 

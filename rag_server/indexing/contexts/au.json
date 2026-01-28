@@ -1,0 +1,53 @@
+{
+  "context": "au",
+  "library": "Audio Unit",
+  "description": "Apple Audio Unit Plugin Documentation",
+  "collection": "au-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "Apple Audio Unit Documentation",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.apple.com/documentation/audiounit",
+        "https://developer.apple.com/documentation/audiounit/audio_unit_v3_plug-ins",
+        "https://developer.apple.com/documentation/audiounit/auaudiounit",
+        "https://developer.apple.com/documentation/audiounit/audio_unit_v3_plug-ins/creating_an_audio_unit_extension",
+        "https://developer.apple.com/documentation/audiounit/audio_unit_v3_plug-ins/incorporating_audio_effects_and_instruments",
+        "https://developer.apple.com/documentation/audiotoolbox/audio_unit_v2_c_api"
+      ]
+    },
+    "tier2_types": {
+      "description": "Audio Unit Types and Components",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.apple.com/documentation/audiounit/audio_unit_component_services",
+        "https://developer.apple.com/documentation/audiounit/audio_unit_parameters",
+        "https://developer.apple.com/documentation/audiounit/audio_unit_properties",
+        "https://developer.apple.com/documentation/audiotoolbox/audio_unit_processing"
+      ]
+    },
+    "tier3_avfoundation": {
+      "description": "AVFoundation Audio Integration",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.apple.com/documentation/avfoundation",
+        "https://developer.apple.com/documentation/avfaudio",
+        "https://developer.apple.com/documentation/avfaudio/avaudioengine",
+        "https://developer.apple.com/documentation/avfaudio/avaudiounit"
+      ]
+    },
+    "tier4_core_audio": {
+      "description": "Core Audio Framework",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://developer.apple.com/documentation/coreaudio",
+        "https://developer.apple.com/documentation/audiotoolbox",
+        "https://developer.apple.com/library/archive/documentation/MusicAudio/Conceptual/CoreAudioOverview/Introduction/Introduction.html"
+      ]
+    }
+  }
+}

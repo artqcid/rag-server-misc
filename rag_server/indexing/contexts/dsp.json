@@ -1,0 +1,84 @@
+{
+  "context": "dsp",
+  "library": "DSP",
+  "description": "Digital Signal Processing Theory and Resources",
+  "collection": "dsp-docs",
+  "tiers": {
+    "tier1_guides": {
+      "description": "DSP Learning Resources and Guides",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://en.wikipedia.org/wiki/Digital_signal_processing",
+        "https://en.wikipedia.org/wiki/Discrete_Fourier_transform",
+        "https://en.wikipedia.org/wiki/Fast_Fourier_transform",
+        "https://en.wikipedia.org/wiki/Z-transform",
+        "https://en.wikipedia.org/wiki/Filter_(signal_processing)",
+        "https://en.wikipedia.org/wiki/Infinite_impulse_response",
+        "https://en.wikipedia.org/wiki/Finite_impulse_response",
+        "https://en.wikipedia.org/wiki/Digital_filter",
+        "https://en.wikipedia.org/wiki/Convolution",
+        "https://en.wikipedia.org/wiki/Sampling_(signal_processing)",
+        "https://en.wikipedia.org/wiki/Nyquist%E2%80%93Shannon_sampling_theorem",
+        "https://en.wikipedia.org/wiki/Window_function",
+        "https://www.dspguide.com/ch1.htm",
+        "https://www.dspguide.com/ch2.htm",
+        "https://www.dspguide.com/ch5.htm",
+        "https://www.dspguide.com/ch6.htm",
+        "https://www.dspguide.com/ch7.htm",
+        "https://www.dspguide.com/ch8.htm",
+        "https://www.dspguide.com/ch9.htm",
+        "https://www.dspguide.com/ch11.htm",
+        "https://www.dspguide.com/ch12.htm",
+        "https://www.dspguide.com/ch13.htm",
+        "https://www.dspguide.com/ch14.htm",
+        "https://www.dspguide.com/ch15.htm",
+        "https://www.dspguide.com/ch17.htm",
+        "https://www.dspguide.com/ch19.htm"
+      ]
+    },
+    "tier2_filters": {
+      "description": "DSP Filters and Transformations",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://en.wikipedia.org/wiki/Butterworth_filter",
+        "https://en.wikipedia.org/wiki/Chebyshev_filter",
+        "https://en.wikipedia.org/wiki/Elliptic_filter",
+        "https://en.wikipedia.org/wiki/Bessel_filter",
+        "https://en.wikipedia.org/wiki/Biquad_filter",
+        "https://www.dspguide.com/ch16.htm",
+        "https://www.dspguide.com/ch18.htm",
+        "https://www.dspguide.com/ch20.htm"
+      ]
+    },
+    "tier3_audio": {
+      "description": "Audio DSP Applications",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://en.wikipedia.org/wiki/Audio_signal_processing",
+        "https://en.wikipedia.org/wiki/Equalization_(audio)",
+        "https://en.wikipedia.org/wiki/Dynamic_range_compression",
+        "https://en.wikipedia.org/wiki/Reverberation",
+        "https://en.wikipedia.org/wiki/Audio_crossover",
+        "https://www.dspguide.com/ch22.htm",
+        "https://www.dspguide.com/ch25.htm"
+      ]
+    },
+    "tier4_advanced": {
+      "description": "Advanced DSP Topics",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://en.wikipedia.org/wiki/Wavelet_transform",
+        "https://en.wikipedia.org/wiki/Hilbert_transform",
+        "https://en.wikipedia.org/wiki/Adaptive_filter",
+        "https://www.dspguide.com/ch26.htm",
+        "https://www.dspguide.com/ch27.htm",
+        "https://www.dspguide.com/ch28.htm",
+        "https://www.dspguide.com/ch33.htm"
+      ]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "context": "vst",
+  "library": "VST3",
+  "description": "Steinberg VST3 Audio Plugin SDK Documentation",
+  "collection": "vst-docs",
+  "tiers": {
+    "tier1_reference": {
+      "description": "VST3 SDK Documentation",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/index.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstsdk/index.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/namespaceSteinberg_1_1Vst.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IAudioProcessor.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IEditController.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IComponent.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IPluginBase.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IConnectionPoint.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IMidiMapping.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IParameterChanges.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IParamValueQueue.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IEventList.html",
+        "https://steinbergmedia.github.io/vst3_doc/base/namespaceSteinberg.html",
+        "https://steinbergmedia.github.io/vst3_doc/base/classSteinberg_1_1FUnknown.html"
+      ]
+    },
+    "tier2_hosting": {
+      "description": "VST3 Host Integration",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IHostApplication.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IComponentHandler.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IPlugInterfaceSupport.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IMessage.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IAttributeList.html"
+      ]
+    },
+    "tier3_extensions": {
+      "description": "VST3 Extended Interfaces",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IAutomationState.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1INoteExpressionController.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IKeyswitchController.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IXmlRepresentationController.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstinterfaces/classSteinberg_1_1Vst_1_1IUnitInfo.html"
+      ]
+    },
+    "tier4_helpers": {
+      "description": "VST3 SDK Helper Classes",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://steinbergmedia.github.io/vst3_doc/vstsdk/classSteinberg_1_1Vst_1_1AudioEffect.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstsdk/classSteinberg_1_1Vst_1_1EditController.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstsdk/classSteinberg_1_1Vst_1_1Parameter.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstsdk/classSteinberg_1_1Vst_1_1Bus.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstsdk/namespaceSteinberg_1_1Vst_1_1Helpers.html"
+      ]
+    },
+    "tier5_vstgui": {
+      "description": "VSTGUI User Interface Library",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/index.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/page_introduction.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/page_setup.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/page_animation.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/namespace_v_s_t_g_u_i.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/class_v_s_t_g_u_i_1_1_c_view.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/class_v_s_t_g_u_i_1_1_c_frame.html",
+        "https://steinbergmedia.github.io/vst3_doc/vstgui/class_v_s_t_g_u_i_1_1_c_control.html"
+      ]
+    }
+  }
+}

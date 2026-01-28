@@ -1,0 +1,47 @@
+{
+  "context": "asio",
+  "library": "ASIO",
+  "description": "Steinberg Audio Stream Input/Output Low-Latency Audio Driver",
+  "collection": "asio-docs",
+  "tiers": {
+    "tier1_overview": {
+      "description": "ASIO Overview and Introduction",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://en.wikipedia.org/wiki/Audio_Stream_Input/Output",
+        "https://www.steinberg.net/asio/"
+      ]
+    },
+    "tier2_sdk": {
+      "description": "ASIO SDK Documentation",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/README.md",
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/common/asio.h",
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/common/asiosys.h",
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/common/asiodrivers.h"
+      ]
+    },
+    "tier3_implementation": {
+      "description": "ASIO Driver Implementation Details",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/host/asiodrivers.cpp",
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/host/pc/asiolist.h",
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/ASIO_SDK_Agreement.pdf"
+      ]
+    },
+    "tier4_examples": {
+      "description": "ASIO Example Applications",
+      "source_type": "github",
+      "doc_type": "guide",
+      "urls": [
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/host/sample/hostsample.cpp",
+        "https://raw.githubusercontent.com/steinbergmedia/asiosdk/master/CHANGES.txt"
+      ]
+    }
+  }
+}

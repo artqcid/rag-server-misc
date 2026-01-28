@@ -1,0 +1,99 @@
+{
+  "context": "vscode",
+  "library": "VS Code",
+  "description": "Visual Studio Code Documentation",
+  "collection": "vscode-docs",
+  "tiers": {
+    "tier1_docs": {
+      "description": "VS Code User Documentation",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://code.visualstudio.com/docs",
+        "https://code.visualstudio.com/docs/editor/codebasics",
+        "https://code.visualstudio.com/docs/editor/extension-marketplace",
+        "https://code.visualstudio.com/docs/editor/intellisense",
+        "https://code.visualstudio.com/docs/editor/editingevolved",
+        "https://code.visualstudio.com/docs/editor/refactoring",
+        "https://code.visualstudio.com/docs/editor/debugging",
+        "https://code.visualstudio.com/docs/editor/versioncontrol",
+        "https://code.visualstudio.com/docs/editor/integrated-terminal",
+        "https://code.visualstudio.com/docs/editor/tasks",
+        "https://code.visualstudio.com/docs/editor/multi-root-workspaces",
+        "https://code.visualstudio.com/docs/editor/accessibility",
+        "https://code.visualstudio.com/docs/languages/overview",
+        "https://code.visualstudio.com/docs/languages/javascript",
+        "https://code.visualstudio.com/docs/languages/typescript",
+        "https://code.visualstudio.com/docs/languages/python",
+        "https://code.visualstudio.com/docs/languages/cpp",
+        "https://code.visualstudio.com/docs/nodejs/working-with-javascript",
+        "https://code.visualstudio.com/docs/typescript/typescript-compiling",
+        "https://code.visualstudio.com/docs/python/python-tutorial"
+      ]
+    },
+    "tier2_api": {
+      "description": "VS Code Extension API",
+      "source_type": "web",
+      "doc_type": "api-reference",
+      "urls": [
+        "https://code.visualstudio.com/api",
+        "https://code.visualstudio.com/api/get-started/your-first-extension",
+        "https://code.visualstudio.com/api/extension-capabilities/overview",
+        "https://code.visualstudio.com/api/extension-guides/overview",
+        "https://code.visualstudio.com/api/references/vscode-api",
+        "https://code.visualstudio.com/api/references/contribution-points",
+        "https://code.visualstudio.com/api/references/activation-events",
+        "https://code.visualstudio.com/api/extension-guides/command",
+        "https://code.visualstudio.com/api/extension-guides/tree-view",
+        "https://code.visualstudio.com/api/extension-guides/webview",
+        "https://code.visualstudio.com/api/extension-guides/custom-editors",
+        "https://code.visualstudio.com/api/language-extensions/overview",
+        "https://code.visualstudio.com/api/language-extensions/syntax-highlight-guide",
+        "https://code.visualstudio.com/api/language-extensions/semantic-highlight-guide",
+        "https://code.visualstudio.com/api/language-extensions/language-server-extension-guide"
+      ]
+    },
+    "tier3_advanced_api": {
+      "description": "VS Code Advanced Extension APIs",
+      "source_type": "web",
+      "doc_type": "api-reference",
+      "urls": [
+        "https://code.visualstudio.com/api/extension-guides/notebook",
+        "https://code.visualstudio.com/api/extension-guides/task-provider",
+        "https://code.visualstudio.com/api/extension-guides/debugger-extension",
+        "https://code.visualstudio.com/api/extension-guides/scm-provider",
+        "https://code.visualstudio.com/api/extension-guides/file-system-provider",
+        "https://code.visualstudio.com/api/extension-guides/chat",
+        "https://code.visualstudio.com/api/extension-guides/language-model"
+      ]
+    },
+    "tier4_testing": {
+      "description": "VS Code Extension Testing and Publishing",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://code.visualstudio.com/api/working-with-extensions/testing-extension",
+        "https://code.visualstudio.com/api/working-with-extensions/publishing-extension",
+        "https://code.visualstudio.com/api/working-with-extensions/bundling-extension",
+        "https://code.visualstudio.com/api/working-with-extensions/continuous-integration",
+        "https://code.visualstudio.com/api/references/extension-manifest",
+        "https://code.visualstudio.com/api/references/when-clause-contexts"
+      ]
+    },
+    "tier5_samples": {
+      "description": "VS Code Extension Samples and Patterns",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://code.visualstudio.com/api/extension-guides/color-theme",
+        "https://code.visualstudio.com/api/extension-guides/file-icon-theme",
+        "https://code.visualstudio.com/api/extension-guides/product-icon-theme",
+        "https://code.visualstudio.com/api/extension-guides/virtual-documents",
+        "https://code.visualstudio.com/api/extension-guides/virtual-workspaces",
+        "https://code.visualstudio.com/api/advanced-topics/using-proposed-api",
+        "https://code.visualstudio.com/api/advanced-topics/remote-extensions",
+        "https://code.visualstudio.com/api/working-with-extensions/web-extensions"
+      ]
+    }
+  }
+}

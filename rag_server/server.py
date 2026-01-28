@@ -40,13 +40,16 @@ class RAGServer:
         """Initialize connections on startup."""
         print("Starting RAG server...")
         
-        # Initialize vector database
+        # Initialize vector database with hybrid search support
         self.vector_db = QdrantVectorDB(
             url=self.config.qdrant_url,
             api_key=self.config.qdrant_api_key,
+            enable_hybrid=self.config.enable_hybrid_search,
+            sparse_vocab_size=self.config.sparse_vocab_size,
         )
         await self.vector_db.connect()
-        print(f"✓ Connected to Qdrant at {self.config.qdrant_url}")
+        hybrid_status = "enabled" if self.config.enable_hybrid_search else "disabled"
+        print(f"✓ Connected to Qdrant at {self.config.qdrant_url} (hybrid search: {hybrid_status})")
 
         # Initialize embedding client
         self.embedding_client = EmbeddingClient(

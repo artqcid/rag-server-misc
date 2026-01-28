@@ -1,0 +1,41 @@
+{
+  "context": "aax",
+  "library": "AAX",
+  "description": "Avid AAX Plugin SDK Documentation",
+  "collection": "aax-docs",
+  "tiers": {
+    "tier1_overview": {
+      "description": "AAX SDK Overview (Note: Requires Avid Developer account for full access)",
+      "source_type": "web",
+      "doc_type": "reference",
+      "urls": [
+        "https://www.avid.com/alliance-partner-program/aax-connectivity-toolkit"
+      ]
+    },
+    "tier2_general": {
+      "description": "General Plugin Development Resources",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://en.wikipedia.org/wiki/Avid_Audio_eXtension",
+        "https://www.avid.com/alliance-partner-program"
+      ]
+    },
+    "tier3_protools": {
+      "description": "Pro Tools Integration",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://www.avid.com/pro-tools"
+      ]
+    },
+    "tier4_reference": {
+      "description": "AAX Community Resources",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://duc.avid.com/"
+      ]
+    }
+  }
+}

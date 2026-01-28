@@ -1,0 +1,113 @@
+{
+  "context": "svelte",
+  "library": "Svelte",
+  "description": "Svelte Cybernetically Enhanced Web Apps",
+  "collection": "svelte-docs",
+  "tiers": {
+    "tier1_docs": {
+      "description": "Svelte Documentation",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://svelte.dev/docs/introduction",
+        "https://svelte.dev/docs/getting-started",
+        "https://svelte.dev/docs/svelte-components",
+        "https://svelte.dev/docs/basic-markup",
+        "https://svelte.dev/docs/logic-blocks",
+        "https://svelte.dev/docs/special-tags",
+        "https://svelte.dev/docs/component-directives",
+        "https://svelte.dev/docs/element-directives",
+        "https://svelte.dev/docs/special-elements",
+        "https://svelte.dev/docs/runtime-errors",
+        "https://svelte.dev/docs/svelte/svelte",
+        "https://svelte.dev/docs/svelte/svelte-store",
+        "https://svelte.dev/docs/svelte/svelte-motion",
+        "https://svelte.dev/docs/svelte/svelte-transition",
+        "https://svelte.dev/docs/svelte/svelte-animate",
+        "https://svelte.dev/docs/svelte/svelte-easing",
+        "https://svelte.dev/docs/svelte/svelte-action",
+        "https://svelte.dev/docs/kit/introduction",
+        "https://svelte.dev/docs/kit/creating-a-project",
+        "https://svelte.dev/docs/kit/project-structure",
+        "https://svelte.dev/docs/kit/routing",
+        "https://svelte.dev/docs/kit/load",
+        "https://svelte.dev/docs/kit/form-actions",
+        "https://svelte.dev/docs/kit/page-options",
+        "https://svelte.dev/docs/kit/state-management",
+        "https://svelte.dev/docs/kit/building-your-app",
+        "https://svelte.dev/docs/kit/adapters",
+        "https://svelte.dev/docs/kit/packaging",
+        "https://svelte.dev/docs/kit/seo",
+        "https://svelte.dev/docs/kit/types",
+        "https://svelte.dev/docs/kit/configuration"
+      ]
+    },
+    "tier2_tutorial": {
+      "description": "Svelte Interactive Tutorial",
+      "source_type": "web",
+      "doc_type": "tutorial",
+      "urls": [
+        "https://learn.svelte.dev/tutorial/welcome-to-svelte",
+        "https://learn.svelte.dev/tutorial/your-first-component",
+        "https://learn.svelte.dev/tutorial/adding-data",
+        "https://learn.svelte.dev/tutorial/dynamic-attributes",
+        "https://learn.svelte.dev/tutorial/styling",
+        "https://learn.svelte.dev/tutorial/nested-components",
+        "https://learn.svelte.dev/tutorial/html-tags",
+        "https://learn.svelte.dev/tutorial/reactive-assignments",
+        "https://learn.svelte.dev/tutorial/reactive-declarations",
+        "https://learn.svelte.dev/tutorial/reactive-statements",
+        "https://learn.svelte.dev/tutorial/declaring-props",
+        "https://learn.svelte.dev/tutorial/default-values",
+        "https://learn.svelte.dev/tutorial/spread-props",
+        "https://learn.svelte.dev/tutorial/if-blocks",
+        "https://learn.svelte.dev/tutorial/else-blocks",
+        "https://learn.svelte.dev/tutorial/else-if-blocks",
+        "https://learn.svelte.dev/tutorial/each-blocks",
+        "https://learn.svelte.dev/tutorial/keyed-each-blocks",
+        "https://learn.svelte.dev/tutorial/await-blocks",
+        "https://learn.svelte.dev/tutorial/dom-events",
+        "https://learn.svelte.dev/tutorial/inline-handlers",
+        "https://learn.svelte.dev/tutorial/event-modifiers",
+        "https://learn.svelte.dev/tutorial/component-events",
+        "https://learn.svelte.dev/tutorial/event-forwarding",
+        "https://learn.svelte.dev/tutorial/dom-event-forwarding",
+        "https://learn.svelte.dev/tutorial/text-inputs",
+        "https://learn.svelte.dev/tutorial/numeric-inputs",
+        "https://learn.svelte.dev/tutorial/checkbox-inputs",
+        "https://learn.svelte.dev/tutorial/group-inputs",
+        "https://learn.svelte.dev/tutorial/textarea-inputs",
+        "https://learn.svelte.dev/tutorial/select-bindings",
+        "https://learn.svelte.dev/tutorial/multiple-select-bindings"
+      ]
+    },
+    "tier3_advanced": {
+      "description": "Svelte Advanced Features",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://svelte.dev/docs/kit/hooks",
+        "https://svelte.dev/docs/kit/modules",
+        "https://svelte.dev/docs/kit/link-options",
+        "https://svelte.dev/docs/kit/service-workers",
+        "https://svelte.dev/docs/kit/migrating",
+        "https://svelte.dev/docs/kit/integrations",
+        "https://svelte.dev/docs/svelte/svelte-compiler"
+      ]
+    },
+    "tier4_ecosystem": {
+      "description": "Svelte Ecosystem and Tools",
+      "source_type": "web",
+      "doc_type": "guide",
+      "urls": [
+        "https://learn.svelte.dev/tutorial/component-bindings",
+        "https://learn.svelte.dev/tutorial/actions",
+        "https://learn.svelte.dev/tutorial/classes",
+        "https://learn.svelte.dev/tutorial/component-composition",
+        "https://learn.svelte.dev/tutorial/context-api",
+        "https://learn.svelte.dev/tutorial/special-elements",
+        "https://learn.svelte.dev/tutorial/module-context"
+      ]
+    }
+  }
+}

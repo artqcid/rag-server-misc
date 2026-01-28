@@ -204,6 +204,7 @@ class RAGQueryEngine:
     async def search(self, request: SearchRequest) -> SearchResponse:
         """
         Search for similar documents (retrieval only).
+        Uses hybrid search if enabled and collection supports it.
         
         Args:
             request: Search request
@@ -219,14 +220,28 @@ class RAGQueryEngine:
         # Get query embedding
         query_embedding = await self.embedding_client.embed(request.query)
 
-        # Search in vector database
+        # Search in vector database (hybrid if supported)
         min_score = request.min_score or self.config.similarity_threshold
-        results = await self.vector_db.search(
-            collection_name=collection_name,
-            query_vector=query_embedding,
-            limit=request.limit,
-            min_score=min_score,
-        )
+        
+        # Try hybrid search if enabled
+        if self.config.enable_hybrid_search and hasattr(self.vector_db, 'hybrid_search'):
+            results = await self.vector_db.hybrid_search(
+                collection_name=collection_name,
+                query_vector=query_embedding,
+                query_text=request.query,
+                limit=request.limit,
+                min_score=min_score,
+                dense_weight=self.config.dense_weight,
+                sparse_weight=self.config.sparse_weight,
+            )
+        else:
+            # Fallback to dense-only search
+            results = await self.vector_db.search(
+                collection_name=collection_name,
+                query_vector=query_embedding,
+                limit=request.limit,
+                min_score=min_score,
+            )
 
         # Format results
         search_results = [
@@ -248,6 +263,7 @@ class RAGQueryEngine:
     async def query(self, request: QueryRequest) -> RAGResponse:
         """
         RAG query - retrieve relevant documents and generate answer.
+        Uses hybrid search if enabled and collection supports it.
         
         Args:
             request: Query request
@@ -263,13 +279,26 @@ class RAGQueryEngine:
         # Get query embedding
         query_embedding = await self.embedding_client.embed(request.query)
 
-        # Search in vector database
-        results = await self.vector_db.search(
-            collection_name=collection_name,
-            query_vector=query_embedding,
-            limit=request.limit,
-            min_score=self.config.similarity_threshold,
-        )
+        # Search in vector database (hybrid if supported)
+        min_score = self.config.similarity_threshold
+        
+        if self.config.enable_hybrid_search and hasattr(self.vector_db, 'hybrid_search'):
+            results = await self.vector_db.hybrid_search(
+                collection_name=collection_name,
+                query_vector=query_embedding,
+                query_text=request.query,
+                limit=request.limit,
+                min_score=min_score,
+                dense_weight=self.config.dense_weight,
+                sparse_weight=self.config.sparse_weight,
+            )
+        else:
+            results = await self.vector_db.search(
+                collection_name=collection_name,
+                query_vector=query_embedding,
+                limit=request.limit,
+                min_score=min_score,
+            )
 
         # Format search results
         search_results = [

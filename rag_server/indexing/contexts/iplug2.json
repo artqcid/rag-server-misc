@@ -1,0 +1,54 @@
+{
+  "context": "iplug2",
+  "library": "iPlug2",
+  "description": "Modern C++ Audio Plugin Framework",
+  "collection": "iplug2-docs",
+  "tiers": {
+    "tier1_overview": {
+      "description": "iPlug2 Overview and Getting Started",
+      "source_type": "github",
+      "doc_type": "guide",
+      "urls": [
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/README.md",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/Documentation/quickstart.md",
+        "https://iplug2.github.io/"
+      ]
+    },
+    "tier2_architecture": {
+      "description": "iPlug2 Architecture and Core Classes",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IPlug/IPlugProcessor.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IPlug/IPlugController.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IPlug/IPlugParameter.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IPlug/IPlugStructs.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IPlug/IPlugConstants.h"
+      ]
+    },
+    "tier3_graphics": {
+      "description": "iPlug2 Graphics and UI",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IGraphics/IGraphics.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IGraphics/IControl.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IGraphics/IControls.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IGraphics/IGraphicsStructs.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/IGraphics/Drawing/IGraphicsNanoVG.h"
+      ]
+    },
+    "tier4_dsp": {
+      "description": "iPlug2 DSP and Examples",
+      "source_type": "github",
+      "doc_type": "reference",
+      "urls": [
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/WDL/IPlug/Containers.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/WDL/convoengine.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/WDL/fft.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/Examples/IPlugEffect/IPlugEffect.h",
+        "https://raw.githubusercontent.com/iPlug2/iPlug2/master/Examples/IPlugInstrument/IPlugInstrument.h"
+      ]
+    }
+  }
+}
