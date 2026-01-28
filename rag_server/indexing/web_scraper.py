@@ -70,6 +70,15 @@ class WebScraper:
         for attempt in range(self.config.max_retries):
             try:
                 response = await self._client.get(url)
+                
+                # Log redirects (301, 302, etc.)
+                if response.history:
+                    for redirect in response.history:
+                        if redirect.status_code in (301, 302, 307, 308):
+                            logger.warning(
+                                f"Redirect {redirect.status_code} detected: {url} -> {response.url}"
+                            )
+                
                 response.raise_for_status()
                 
                 content_type = response.headers.get("content-type", "")

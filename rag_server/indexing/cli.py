@@ -172,9 +172,10 @@ def show(context: str, tier: str, urls: bool):
 @cli.command("verify")
 @click.argument("context")
 @click.option("--tier", "-t", help="Verify specific tier only")
-@click.option("--limit", "-n", default=5, help="Max URLs to verify per tier")
-def verify(context: str, tier: str, limit: int):
-    """Verify URLs are accessible (HEAD requests)."""
+@click.option("--limit", "-n", type=int, help="Max URLs to verify per tier (default: all)")
+@click.option("--check-redirects", is_flag=True, help="Report 301/302 redirects")
+def verify(context: str, tier: str, limit: int, check_redirects: bool):
+    """Verify URLs are accessible and report issues."""
     import httpx
     
     url_manager = URLSetManager()
@@ -186,31 +187,110 @@ def verify(context: str, tier: str, limit: int):
     
     tiers_to_check = [tier] if tier else ctx.get_tier_names()
     
+    total_urls = 0
+    error_count = 0
+    redirect_count = 0
+    redirects_found = []
+    errors_found = []
+    
     async def check_urls():
-        async with httpx.AsyncClient(timeout=10.0, follow_redirects=True) as client:
+        nonlocal total_urls, error_count, redirect_count
+        
+        async with httpx.AsyncClient(
+            timeout=10.0,
+            follow_redirects=True,
+            headers={
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            }
+        ) as client:
             for tier_name in tiers_to_check:
                 tier_config = ctx.get_tier(tier_name)
                 if not tier_config:
                     continue
                 
                 tier_urls = tier_config.get_urls()
-                urls_to_check = tier_urls[:limit]
+                urls_to_check = tier_urls[:limit] if limit else tier_urls
                 
-                click.echo(f"\n{tier_name} (checking {len(urls_to_check)}/{len(tier_urls)} URLs):")
+                click.echo(f"\n{tier_name} (checking {len(urls_to_check)} URLs):")
                 
                 for item in urls_to_check:
                     url = item["url"]
+                    total_urls += 1
+                    
                     try:
-                        response = await client.head(url)
+                        response = await client.get(url)
                         status = response.status_code
+                        
+                        # Check for redirects
+                        if check_redirects and response.history:
+                            for redirect in response.history:
+                                if redirect.status_code in (301, 302, 307, 308):
+                                    redirect_count += 1
+                                    redirect_info = {
+                                        "tier": tier_name,
+                                        "original": url,
+                                        "final": str(response.url),
+                                        "status": redirect.status_code
+                                    }
+                                    redirects_found.append(redirect_info)
+                                    click.echo(
+                                        f"  ⚠ {redirect.status_code} REDIRECT: {url[:50]}... -> {str(response.url)[:50]}...",
+                                        err=True
+                                    )
+                        
                         if status < 400:
-                            click.echo(f"  ✓ {status} {url[:60]}...")
+                            if not (check_redirects and response.history):
+                                click.echo(f"  ✓ {status} {url[:80]}...")
                         else:
-                            click.echo(f"  ✗ {status} {url[:60]}...")
+                            error_count += 1
+                            error_info = {
+                                "tier": tier_name,
+                                "url": url,
+                                "status": status
+                            }
+                            errors_found.append(error_info)
+                            click.echo(f"  ✗ {status} {url}", err=True)
+                            
                     except Exception as e:
-                        click.echo(f"  ✗ ERR {url[:60]}... ({e})")
+                        error_count += 1
+                        error_info = {
+                            "tier": tier_name,
+                            "url": url,
+                            "error": str(e)
+                        }
+                        errors_found.append(error_info)
+                        click.echo(f"  ✗ ERROR: {url} - {e}", err=True)
     
     asyncio.run(check_urls())
+    
+    # Summary
+    click.echo(f"\n{'='*80}")
+    click.echo(f"SUMMARY for context '{context}':")
+    click.echo(f"  Total URLs checked: {total_urls}")
+    click.echo(f"  Errors: {error_count}")
+    if check_redirects:
+        click.echo(f"  Redirects (301/302): {redirect_count}")
+    
+    if errors_found:
+        click.echo(f"\n{'='*80}")
+        click.echo("ERRORS FOUND:")
+        for err in errors_found:
+            click.echo(f"  [{err['tier']}] {err['url']}")
+            if 'status' in err:
+                click.echo(f"    Status: {err['status']}")
+            if 'error' in err:
+                click.echo(f"    Error: {err['error']}")
+    
+    if check_redirects and redirects_found:
+        click.echo(f"\n{'='*80}")
+        click.echo("REDIRECTS FOUND (update these URLs):")
+        for redir in redirects_found:
+            click.echo(f"  [{redir['tier']}] {redir['status']}")
+            click.echo(f"    OLD: {redir['original']}")
+            click.echo(f"    NEW: {redir['final']}")
+    
+    if error_count > 0:
+        sys.exit(1)
 
 
 def main():
