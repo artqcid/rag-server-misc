@@ -1,8 +1,11 @@
 """RAG query engine - orchestrates retrieval and generation."""
+import logging
 from typing import List, Dict, Any, Optional, Union
 from datetime import datetime, timezone
 import uuid
 import hashlib
+
+logger = logging.getLogger(__name__)
 
 from .config import RAGConfig
 from .vector_db import VectorDBInterface
@@ -151,9 +154,22 @@ class RAGQueryEngine:
             )
             all_chunks.extend(chunks_with_meta)
 
-        # Get embeddings for all chunks
+        # Get embeddings for all chunks in batches to avoid overwhelming the embedding server
         chunk_texts = [chunk["content"] for chunk in all_chunks]
-        embeddings = await self.embedding_client.embed_batch(chunk_texts)
+        total_chunks = len(chunk_texts)
+        logger.info(f"Processing {total_chunks} chunks from {len(request.documents)} documents")
+        
+        # Process embeddings in batches of max 50 chunks
+        EMBEDDING_BATCH_SIZE = 50
+        embeddings = []
+        total_batches = (total_chunks + EMBEDDING_BATCH_SIZE - 1) // EMBEDDING_BATCH_SIZE
+        
+        for batch_num, i in enumerate(range(0, total_chunks, EMBEDDING_BATCH_SIZE), 1):
+            batch = chunk_texts[i:i + EMBEDDING_BATCH_SIZE]
+            logger.info(f"Embedding batch {batch_num}/{total_batches} ({len(batch)} chunks)")
+            batch_embeddings = await self.embedding_client.embed_batch(batch)
+            embeddings.extend(batch_embeddings)
+            logger.info(f"Batch {batch_num} complete")
 
         # Prepare documents for insertion
         documents_to_insert = []

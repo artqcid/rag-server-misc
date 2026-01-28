@@ -103,8 +103,9 @@ if (-not (Test-ServiceRunning -ServiceName "Qdrant" -Port 6333)) {
     $QdrantPath = "C:\qdrant\qdrant.exe"
     if (Test-Path $QdrantPath) {
         try {
-            Start-Process -FilePath $QdrantPath -NoNewWindow -RedirectStandardOutput "C:\qdrant\qdrant.log" -RedirectStandardError "C:\qdrant\qdrant-error.log"
-            Write-Status "Qdrant process started" "Info"
+            # Start Qdrant - reads config from C:\qdrant\config\config.yaml (Web UI enabled)
+            Start-Process -FilePath $QdrantPath -WorkingDirectory "C:\qdrant" -NoNewWindow -RedirectStandardOutput "C:\qdrant\qdrant.log" -RedirectStandardError "C:\qdrant\qdrant-error.log"
+            Write-Status "Qdrant process started (Web UI: http://localhost:6333/dashboard)" "Info"
             Write-Status "Waiting for Qdrant to start..." "Info"
             
             # Wait for Qdrant to be ready

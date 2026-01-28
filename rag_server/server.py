@@ -1,8 +1,12 @@
 """FastAPI server for RAG system."""
+import logging
 from typing import Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+
+# Configure logging
+logger = logging.getLogger(__name__)
 
 from .config import RAGConfig
 from .models import (
@@ -136,9 +140,15 @@ def create_app(config: Optional[RAGConfig] = None) -> FastAPI:
         if not server.query_engine:
             raise HTTPException(500, "Query engine not initialized")
         
+        doc_count = len(request.documents)
+        logger.info(f"Indexing request received: {doc_count} documents")
+        
         try:
-            return await server.query_engine.index(request)
+            result = await server.query_engine.index(request)
+            logger.info(f"Indexing complete: {result.indexed_count} chunks indexed")
+            return result
         except Exception as e:
+            logger.error(f"Indexing failed: {str(e)}", exc_info=True)
             raise HTTPException(500, f"Indexing failed: {str(e)}")
 
     @app.post("/v1/rag/query", response_model=RAGResponse)

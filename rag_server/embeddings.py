@@ -1,6 +1,7 @@
 """Embedding server client."""
 from typing import List
 import httpx
+import asyncio
 
 
 class EmbeddingClient:
@@ -16,7 +17,10 @@ class EmbeddingClient:
         """
         self.base_url = base_url.rstrip("/")
         self.model = model
-        self.client = httpx.AsyncClient(timeout=30.0, http2=False)
+        # Increased timeout for large batches
+        self.client = httpx.AsyncClient(timeout=120.0, http2=False)
+        self.max_retries = 3
+        self.retry_delay = 2.0
 
     async def close(self):
         """Close HTTP client."""
@@ -59,18 +63,31 @@ class EmbeddingClient:
         }
 
         try:
-            response = await self.client.post(url, json=payload)
-            response.raise_for_status()
+            # Retry logic for resilience
+            last_error = None
+            for attempt in range(self.max_retries):
+                try:
+                    response = await self.client.post(url, json=payload)
+                    response.raise_for_status()
+                    
+                    data = response.json()
+                    
+                    # Extract embeddings from response
+                    # Format: {"data": [{"embedding": [...]}, ...]}
+                    embeddings = []
+                    for item in data.get("data", []):
+                        embeddings.append(item["embedding"])
+                    
+                    return embeddings
+                    
+                except (httpx.HTTPError, httpx.TimeoutException) as e:
+                    last_error = e
+                    if attempt < self.max_retries - 1:
+                        await asyncio.sleep(self.retry_delay * (attempt + 1))
+                        continue
+                    raise
             
-            data = response.json()
-            
-            # Extract embeddings from response
-            # Format: {"data": [{"embedding": [...]}, ...]}
-            embeddings = []
-            for item in data.get("data", []):
-                embeddings.append(item["embedding"])
-            
-            return embeddings
+            raise RuntimeError(f"Embedding server error after {self.max_retries} retries: {last_error}")
             
         except httpx.HTTPError as e:
             raise RuntimeError(f"Embedding server error: {e}")
@@ -78,7 +95,9 @@ class EmbeddingClient:
     async def health_check(self) -> bool:
         """Check if embedding server is healthy."""
         try:
-            response = await self.client.get(f"{self.base_url}/health")
+            # Strip /v1/embeddings from base_url to get root health endpoint
+            health_url = self.base_url.replace("/v1/embeddings", "")
+            response = await self.client.get(f"{health_url}/health")
             return response.status_code == 200
         except Exception:
             return False

@@ -125,7 +125,9 @@ Answer:"""
     async def health_check(self) -> bool:
         """Check if LLM server is healthy."""
         try:
-            response = await self.client.get(f"{self.base_url}/health")
+            # Strip /v1/chat/completions from base_url to get root health endpoint
+            health_url = self.base_url.replace("/v1/chat/completions", "")
+            response = await self.client.get(f"{health_url}/health")
             return response.status_code == 200
         except Exception:
             return False

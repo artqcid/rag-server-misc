@@ -1,0 +1,11 @@
+{
+  "name": "RAG Ingest Flow",
+  "flowData": "{\"nodes\":[{\"id\":\"customLoader_0\",\"position\":{\"x\":100,\"y\":200},\"type\":\"customNode\",\"data\":{\"id\":\"customLoader_0\",\"label\":\"Custom Document Loader\",\"name\":\"customLoader\",\"type\":\"Document\",\"category\":\"Document Loaders\",\"description\":\"Load custom data via API\",\"baseClasses\":[\"Document\"],\"inputs\":{\"textSplitter\":\"\"},\"outputs\":{\"output\":\"document\"}}},{\"id\":\"recursiveTextSplitter_0\",\"position\":{\"x\":400,\"y\":200},\"type\":\"customNode\",\"data\":{\"id\":\"recursiveTextSplitter_0\",\"label\":\"Recursive Character Text Splitter\",\"name\":\"recursiveCharacterTextSplitter\",\"type\":\"RecursiveCharacterTextSplitter\",\"category\":\"Text Splitters\",\"inputs\":{\"chunkSize\":512,\"chunkOverlap\":50},\"outputs\":{\"output\":\"textSplitter\"}}}],\"edges\":[{\"id\":\"e0\",\"source\":\"recursiveTextSplitter_0\",\"sourceHandle\":\"recursiveTextSplitter_0-output-textSplitter\",\"target\":\"customLoader_0\",\"targetHandle\":\"customLoader_0-input-textSplitter\",\"type\":\"buttonedge\"}]}",
+  "deployed": false,
+  "isPublic": false,
+  "apikeyid": null,
+  "chatbotConfig": null,
+  "category": "RAG Ingest",
+  "speechToText": null,
+  "type": "CHATFLOW"
+}
